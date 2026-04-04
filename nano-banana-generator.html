@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nano Banana — Landing Prompt Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0f;
+  --bg2: #111115;
+  --bg3: #16161c;
+  --card: #1a1a22;
+  --card2: #1f1f28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --accent: #b5f23c;
+  --accent2: #8fd620;
+  --accent-dim: rgba(181,242,60,0.12);
+  --accent-glow: rgba(181,242,60,0.25);
+  --gold: #f0c060;
+  --gold-dim: rgba(240,192,96,0.15);
+  --text: #f0f0f4;
+  --text2: #9898a8;
+  --text3: #5a5a6e;
+  --danger: #ff5a5a;
+  --danger-dim: rgba(255,90,90,0.12);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 15px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* --- NOISE TEXTURE OVERLAY --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* --- TOP NAV --- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.logo span { color: var(--accent); }
+
+.nav-badge {
+  font-size: 11px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(181,242,60,0.25);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-weight: 500;
+}
+
+/* --- LAYOUT --- */
+.app-layout {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 60px);
+  position: relative;
+  z-index: 1;
+}
+
+.input-panel {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 2rem;
+  max-height: calc(100vh - 60px);
+  position: sticky;
+  top: 60px;
+}
+
+.output-panel {
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* --- SECTION HEADERS --- */
+.panel-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* --- FORM SECTIONS --- */
+.form-section {
+  margin-bottom: 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card2);
+}
+
+.section-num {
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  color: #0c0c0f;
+  border-radius: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.badge-req {
+  font-size: 10px;
+  background: var(--danger-dim);
+  color: var(--danger);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-weight: 500;
+}
+
+.badge-opt {
+  font-size: 10px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text3);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-weight: 500;
+}
+
+.section-body { padding: 16px 18px; }
+
+.helper {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* --- LANGUAGE GRID --- */
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.lang-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: all 0.15s;
+  background: transparent;
+}
+
+.lang-card:hover { border-color: rgba(181,242,60,0.35); background: var(--accent-dim); }
+
+.lang-card.active {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 1px rgba(181,242,60,0.2) inset;
+}
+
+.lang-flag { font-size: 20px; line-height: 1; flex-shrink: 0; }
+
+.lang-info { flex: 1; min-width: 0; }
+
+.lang-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.lang-mkt { font-size: 10px; color: var(--text3); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.lang-dot { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid var(--border2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.active .lang-dot { background: var(--accent); border-color: var(--accent); }
+.lang-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #0c0c0f; display: none; }
+.active .lang-dot::after { display: block; }
+
+/* --- OFFER BUTTONS --- */
+.offer-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.offer-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  cursor: pointer;
+  background: transparent;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.offer-btn:hover { border-color: rgba(181,242,60,0.35); background: var(--accent-dim); }
+.offer-btn.active { border-color: var(--accent); background: var(--accent-dim); }
+
+.offer-icon { font-size: 22px; display: block; margin-bottom: 7px; }
+.offer-label { font-size: 13px; font-weight: 500; color: var(--text); display: block; }
+.offer-sub { font-size: 11px; color: var(--text3); display: block; margin-top: 2px; }
+
+/* --- FIELDS --- */
+.field-group { margin-bottom: 12px; }
+.field-group:last-child { margin-bottom: 0; }
+
+.field-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 6px;
+  display: block;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 9px 12px;
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(181,242,60,0.4);
+  box-shadow: 0 0 0 3px rgba(181,242,60,0.07);
+}
+
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+select { cursor: pointer; }
+select option { background: var(--bg3); }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* --- TOGGLE --- */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.toggle-label { font-size: 12px; color: var(--text2); }
+
+.toggle {
+  width: 36px;
+  height: 20px;
+  background: var(--border2);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.toggle.on { background: var(--accent); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s;
+}
+
+.toggle.on::after { transform: translateX(16px); }
+
+/* --- REVIEWS --- */
+.rev-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.rev-item:last-child { margin-bottom: 0; }
+
+.rev-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text3);
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.1s;
+}
+
+.rev-remove:hover { background: var(--danger-dim); color: var(--danger); }
+
+.rev-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: 8px; }
+
+.stars-row { display: flex; gap: 2px; }
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--border2);
+  padding: 0;
+  line-height: 1;
+  transition: color 0.1s;
+}
+
+.star-btn.lit { color: var(--gold); }
+
+.add-rev-btn {
+  width: 100%;
+  padding: 9px;
+  background: none;
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text3);
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.add-rev-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #0c0c0f;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(181,242,60,0.25); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-secondary {
+  padding: 9px 16px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-secondary:hover { border-color: var(--border2); background: rgba(255,255,255,0.04); color: var(--text); }
+
+.btn-ghost {
+  padding: 9px 16px;
+  background: none;
+  border: 1px solid var(--danger-dim);
+  border-radius: var(--radius-sm);
+  color: var(--danger);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-ghost:hover { background: var(--danger-dim); }
+
+/* --- OUTPUT PANEL --- */
+.output-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--text3);
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.output-empty-icon { font-size: 48px; opacity: 0.4; }
+
+.output-empty-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text2);
+}
+
+.output-empty-sub { font-size: 13px; line-height: 1.6; max-width: 300px; }
+
+.output-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: none;
+}
+
+.output-card.visible { display: block; }
+
+.output-topbar {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card2);
+  flex-wrap: wrap;
+}
+
+.output-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.output-tag {
+  font-size: 10px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(181,242,60,0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+.copy-btn {
+  padding: 8px 16px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #0c0c0f;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copy-btn:hover { background: var(--accent2); }
+.copy-btn.copied { background: var(--bg3); color: var(--accent); border: 1px solid var(--accent); }
+
+.output-meta {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.output-content {
+  padding: 20px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text2);
+  white-space: pre-wrap;
+  font-family: 'DM Mono', 'DM Sans', monospace;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.output-actions {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* --- SMART TOGGLE --- */
+.smart-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(240,192,96,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 1.5rem;
+}
+
+.smart-toggle-icon { font-size: 18px; }
+.smart-toggle-info { flex: 1; }
+.smart-toggle-label { font-size: 12px; font-weight: 500; color: var(--gold); }
+.smart-toggle-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+/* --- LOADING STATE --- */
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+.loading-dots span { animation: pulse 1.2s ease-in-out infinite; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* --- MOBILE --- */
+@media (max-width: 860px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .input-panel { max-height: none; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+  .output-panel { padding: 1rem; }
+  .topnav { padding: 0 1rem; }
+  .lang-grid { grid-template-columns: 1fr; }
+}
+
+/* --- GLOW ORBS --- */
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+}
+
+.orb1 { width: 400px; height: 400px; background: var(--accent); top: -100px; right: -100px; }
+.orb2 { width: 300px; height: 300px; background: var(--gold); bottom: 100px; left: -80px; }
+
+/* --- SECTION DIVIDER --- */
+.section-sep { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+/* --- ERROR --- */
+.error-msg {
+  background: var(--danger-dim);
+  border: 1px solid rgba(255,90,90,0.2);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-top: 12px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="logo">
+    <div class="logo-icon">🍌</div>
+    Nano<span>Banana</span> Generator
+  </div>
+  <div class="nav-badge">v2.0 Pro</div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="app-layout">
+
+  <!-- LEFT: INPUT PANEL -->
+  <div class="input-panel">
+    <div class="panel-title">Configuration du prompt</div>
+
+    <!-- SMART VERSION TOGGLE -->
+    <div class="smart-toggle-row">
+      <span class="smart-toggle-icon">✨</span>
+      <div class="smart-toggle-info">
+        <div class="smart-toggle-label">Mode Smart Enhanced</div>
+        <div class="smart-toggle-sub">Auto-génère reviews, CTA, palette et urgence</div>
+      </div>
+      <div class="toggle on" id="smartToggle" onclick="toggleSmart(this)"></div>
+    </div>
+
+    <!-- 1. LANGUE -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">Langue du marché cible</div>
+        <span class="badge-req">Requis</span>
+      </div>
+      <div class="section-body">
+        <div class="lang-grid" id="langGrid"></div>
+        <p class="helper" style="margin-top:10px;">Détermine la langue du texte, les avatars culturels, les prénoms et les références visuelles dans le prompt.</p>
+      </div>
+    </div>
+
+    <!-- 2. TYPE D'OFFRE -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">Type d'offre</div>
+        <span class="badge-req">Requis</span>
+      </div>
+      <div class="section-body">
+        <div class="offer-row">
+          <button class="offer-btn active" onclick="selectOffer('single',this)">
+            <span class="offer-icon">📦</span>
+            <span class="offer-label">Produit unique</span>
+            <span class="offer-sub">Single Product</span>
+          </button>
+          <button class="offer-btn" onclick="selectOffer('bundle',this)">
+            <span class="offer-icon">🎁</span>
+            <span class="offer-label">Pack / Bundle</span>
+            <span class="offer-sub">Product Bundle</span>
+          </button>
+        </div>
+        <p class="helper" style="margin-top:10px;">Influence la mise en scène visuelle du produit dans le prompt généré.</p>
+      </div>
+    </div>
+
+    <!-- 3. PRODUIT -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">Caractéristiques du produit</div>
+        <span class="badge-req">Requis</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Nom du produit / pack *</label>
+            <input type="text" id="pName" placeholder="ex: Montre Tactique Pro X7">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Catégorie / niche *</label>
+            <input type="text" id="pCat" placeholder="ex: Montre connectée">
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Description complète & caractéristiques *</label>
+          <textarea id="pDesc" placeholder="Décrivez le produit : fonctionnalités, matériaux, avantages, public cible..." style="min-height:100px;"></textarea>
+        </div>
+        <div class="section-sep"></div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Prix (optionnel)</label>
+            <input type="text" id="pPrice" placeholder="ex: 199 MAD / 15 000 FCFA">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Marque (optionnel)</label>
+            <input type="text" id="pBrand" placeholder="ex: ProTech, VitalFit...">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Texte CTA (optionnel)</label>
+            <input type="text" id="pCta" placeholder="ex: Commander maintenant">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Style visuel / couleurs (optionnel)</label>
+            <input type="text" id="pColors" placeholder="ex: noir et or, bleu marine">
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Public cible (optionnel)</label>
+          <input type="text" id="pAudience" placeholder="ex: femmes actives 25–45 ans, sportifs, professionnels">
+        </div>
+        <p class="helper">Ces informations alimentent le copywriting et la direction visuelle de votre landing page.</p>
+      </div>
+    </div>
+
+    <!-- 4. REVIEWS -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">Avis clients / Reviews</div>
+        <span class="badge-opt">Optionnel</span>
+      </div>
+      <div class="section-body">
+        <div class="toggle-row" style="padding:0 0 12px 0; border-bottom: 1px solid var(--border); margin-bottom:12px;">
+          <div>
+            <div class="toggle-label">Auto-générer les avis</div>
+            <div class="helper" style="margin-top:2px;">Génère des avis réalistes adaptés au marché</div>
+          </div>
+          <div class="toggle on" id="autoRevToggle" onclick="toggleAutoRev(this)"></div>
+        </div>
+        <div id="manualRevs" style="display:none;">
+          <div id="revList"></div>
+          <button class="add-rev-btn" onclick="addReview()">+ Ajouter un avis client</button>
+        </div>
+        <p class="helper" id="autoRevHint">Les avis seront générés automatiquement avec noms, villes et avatars correspondant au marché sélectionné.</p>
+      </div>
+    </div>
+
+    <!-- GENERATE BUTTON -->
+    <button class="btn-primary" id="generateBtn" onclick="generatePrompt()">
+      <span>🍌</span> Générer le Prompt Nanobanana
+    </button>
+    <div class="error-msg" id="errorMsg"></div>
+
+  </div>
+
+  <!-- RIGHT: OUTPUT PANEL -->
+  <div class="output-panel">
+    <div class="panel-title">Prompt généré</div>
+
+    <!-- EMPTY STATE -->
+    <div class="output-empty" id="outputEmpty">
+      <div class="output-empty-icon">🍌</div>
+      <div class="output-empty-title">Votre prompt apparaîtra ici</div>
+      <div class="output-empty-sub">Configurez votre produit et marché cible, puis cliquez sur Générer pour obtenir votre prompt Nanobanana complet prêt à coller.</div>
+    </div>
+
+    <!-- OUTPUT CARD -->
+    <div class="output-card" id="outputCard">
+      <div class="output-topbar">
+        <div class="output-title">
+          Prompt Nanobanana <span class="output-tag">PRÊT À COPIER</span>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">📋 Copier</button>
+      </div>
+      <div class="output-meta" id="outputMeta"></div>
+      <div class="output-content" id="outputContent"></div>
+      <div class="output-actions">
+        <button class="btn-secondary" onclick="generatePrompt()">🔄 Régénérer</button>
+        <button class="btn-ghost" onclick="clearForm()">✕ Effacer le formulaire</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ====================================================
+// DATA
+// ====================================================
+const LANGS = [
+  {
+    code:'fr-afrique', flag:'🌍', name:'Français — Afrique', mkt:'Afrique francophone COD',
+    avatar:'Black African characters with West/Central African features, dark skin tones, natural hairstyles',
+    names:['Mamadou','Fatou','Kofi','Aminata','Ibrahima','Awa','Sékou','Marième','Oumar','Aissatou','Lamine','Kadiatou'],
+    cities:['Abidjan, Côte d\'Ivoire','Dakar, Sénégal','Conakry, Guinée','Bamako, Mali','Ouagadougou, Burkina Faso','Lomé, Togo'],
+    ctaDefault:'Commander maintenant — Paiement à la livraison',
+    urgency:'⚠️ STOCK LIMITÉ — COMMANDEZ VITE !',
+    trust:'Livraison rapide • Paiement à la réception • Satisfait ou remboursé',
+    lang:'French',
+    visuals:'vibrant West African urban lifestyle, markets, modern city scenes',
+    tone:'direct-response COD French, warm and persuasive',
+    textSample:{hero:'MAÎTRISEZ VOTRE QUOTIDIEN AVEC STYLE ET PRÉCISION !', problem:'FATIGUÉ(E) DE RATER DES APPELS IMPORTANTS PENDANT L\'EFFORT ?', solution:'LA SOLUTION ULTIME EST ENFIN DISPONIBLE', cta:'COMMANDER MAINTENANT — PAIEMENT À LA LIVRAISON'}
+  },
+  {
+    code:'darija', flag:'🇲🇦', name:'Darija marocaine', mkt:'Maroc — Local COD',
+    avatar:'Moroccan-looking characters, Mediterranean North African features, diverse skin tones',
+    names:['Youssef','Fatima','Hassan','Khadija','Amine','Nadia','Mehdi','Samira','Karim','Zineb','Rachid','Houda'],
+    cities:['Casablanca','Rabat','Marrakech','Fès','Agadir','Tanger','Meknès','Oujda'],
+    ctaDefault:'سولّي دابا — الدفع عند الاستلام',
+    urgency:'⚠️ المخزون محدود — سولّي بزعف !',
+    trust:'توصيل سريع • الدفع عند الاستلام • مضمون أو مرداد',
+    lang:'Moroccan Darija (Arabic script with French if needed)',
+    visuals:'Moroccan urban lifestyle, riads, modern Casablanca/Rabat settings, local family context',
+    tone:'warm conversational Darija, COD trust-building, local references',
+    textSample:{hero:'كن في ميتاكك ديما — بالستايل والدقة !', problem:'عيّت تفوّت المكالمات المهمة وأنت كتتحرك ؟', solution:'الحل الأمثل وصل أخيراً', cta:'سولّي دابا — الدفع عند الاستلام'}
+  },
+  {
+    code:'ar-gulf', flag:'🇸🇦', name:'Arabe — Golfe', mkt:'Pays du Golfe COD',
+    avatar:'Gulf Arab characters, Middle Eastern features, elegant and premium styling, traditional or modern dress',
+    names:['محمد','فاطمة','أحمد','عائشة','خالد','نورة','راشد','سارة','عبدالله','مريم','سلطان','لطيفة'],
+    cities:['دبي، الإمارات','الرياض، السعودية','أبوظبي، الإمارات','الكويت','الدوحة، قطر','مسقط، عُمان'],
+    ctaDefault:'اطلب الآن — الدفع عند الاستلام',
+    urgency:'⚠️ الكمية محدودة — اطلب الآن !',
+    trust:'توصيل سريع • الدفع عند الاستلام • ضمان الجودة',
+    lang:'Gulf Arabic (Modern Standard with Gulf dialect nuances)',
+    visuals:'premium Gulf lifestyle, modern architecture, luxury context, elegant minimalist aesthetic',
+    tone:'premium direct-response Arabic, aspirational, trust-focused',
+    textSample:{hero:'تحكّم في يومك بأسلوب وتميّز لا مثيل له !', problem:'هل تفوتك المكالمات المهمة أثناء التمرين ؟', solution:'الحل الأمثل وصل أخيراً', cta:'اطلب الآن — الدفع عند الاستلام'}
+  },
+  {
+    code:'en-global', flag:'🌐', name:'English — Global', mkt:'Dropshipping worldwide',
+    avatar:'Globally diverse and realistic premium characters, multicultural, modern and aspirational',
+    names:['James','Sarah','Mike','Emma','David','Jessica','Ryan','Ashley','Chris','Megan','Tyler','Brittany'],
+    cities:['New York, USA','London, UK','Los Angeles, USA','Toronto, Canada','Sydney, Australia','Miami, USA'],
+    ctaDefault:'Order Now — Fast Shipping',
+    urgency:'⚠️ LIMITED STOCK — ORDER NOW !',
+    trust:'Fast delivery • 30-day money back • Secure checkout',
+    lang:'English (American direct-response copy)',
+    visuals:'modern global lifestyle, clean premium settings, aspirational fitness and professional contexts',
+    tone:'punchy American direct-response, benefit-driven, urgency-focused',
+    textSample:{hero:'MASTER YOUR DAY WITH STYLE AND PRECISION !', problem:'TIRED OF MISSING IMPORTANT CALLS DURING YOUR WORKOUT ?', solution:'THE ULTIMATE SOLUTION IS FINALLY HERE', cta:'ORDER NOW — FREE FAST SHIPPING'}
+  },
+  {
+    code:'fr-fr', flag:'🇫🇷', name:'Français — France', mkt:'France & Europe francophone',
+    avatar:'French and Western European characters, diverse but predominantly European features',
+    names:['Thomas','Léa','Nicolas','Camille','Antoine','Sophie','Lucas','Marie','Mathieu','Clara','Hugo','Julie'],
+    cities:['Paris','Lyon','Marseille','Bordeaux','Toulouse','Nice','Bruxelles, Belgique','Genève, Suisse'],
+    ctaDefault:'Commander maintenant — Livraison rapide',
+    urgency:'⚠️ STOCK LIMITÉ — COMMANDEZ MAINTENANT !',
+    trust:'Livraison 24-48h • Retours gratuits • Paiement sécurisé',
+    lang:'French (standard French, clean and modern)',
+    visuals:'French urban lifestyle, clean modern European aesthetic, café culture, urban fitness',
+    tone:'modern French direct-response, sophisticated but punchy',
+    textSample:{hero:'MAÎTRISEZ VOTRE QUOTIDIEN AVEC STYLE ET PRÉCISION !', problem:'VOUS RATEZ DES APPELS IMPORTANTS PENDANT VOS ENTRAÎNEMENTS ?', solution:'LA SOLUTION ULTIME EST ENFIN DISPONIBLE', cta:'COMMANDER MAINTENANT — LIVRAISON RAPIDE'}
+  },
+  {
+    code:'es', flag:'🇪🇸', name:'Español', mkt:'Amérique latine & Espagne',
+    avatar:'Latin American and Spanish characters, warm Mediterranean and Latin features',
+    names:['Carlos','María','Juan','Ana','Miguel','Sofía','Diego','Isabella','Andrés','Valentina','Luis','Camila'],
+    cities:['Ciudad de México','Buenos Aires, Argentina','Bogotá, Colombia','Lima, Perú','Madrid, España','Santiago, Chile'],
+    ctaDefault:'Pedir ahora — Pago contra entrega',
+    urgency:'⚠️ STOCK LIMITADO — ¡PIDE YA !',
+    trust:'Envío rápido • Pago al recibir • Garantía de satisfacción',
+    lang:'Spanish (Latin American direct-response style)',
+    visuals:'vibrant Latin American urban lifestyle, warm colors, modern cities',
+    tone:'energetic Spanish direct-response, warm and persuasive',
+    textSample:{hero:'¡DOMINA TU DÍA CON ESTILO Y PRECISIÓN !', problem:'¿CANSADO DE PERDER LLAMADAS IMPORTANTES DURANTE TU ENTRENAMIENTO ?', solution:'¡LA SOLUCIÓN DEFINITIVA HA LLEGADO !', cta:'PEDIR AHORA — PAGO CONTRA ENTREGA'}
+  },
+  {
+    code:'it', flag:'🇮🇹', name:'Italiano', mkt:'Marché italien',
+    avatar:'Italian and Mediterranean European characters, elegant and stylish presentation',
+    names:['Marco','Giulia','Luca','Sofia','Alessandro','Valentina','Matteo','Chiara','Francesco','Francesca'],
+    cities:['Roma','Milano','Napoli','Torino','Firenze','Bologna','Palermo','Venezia'],
+    ctaDefault:'Ordina ora — Spedizione veloce',
+    urgency:'⚠️ SCORTE LIMITATE — ORDINA SUBITO !',
+    trust:'Consegna rapida • Reso gratuito • Pagamento sicuro',
+    lang:'Italian (modern Italian direct-response)',
+    visuals:'Italian lifestyle, elegant Mediterranean context, modern urban Italy',
+    tone:'elegant Italian direct-response, stylish and benefit-driven',
+    textSample:{hero:'PADRONEGGIA LA TUA GIORNATA CON STILE E PRECISIONE !', problem:'STANCO DI PERDERE CHIAMATE IMPORTANTI DURANTE L\'ALLENAMENTO ?', solution:'LA SOLUZIONE DEFINITIVA È FINALMENTE QUI !', cta:'ORDINA ORA — SPEDIZIONE VELOCE'}
+  },
+  {
+    code:'de', flag:'🇩🇪', name:'Deutsch', mkt:'Allemagne & Europe centrale',
+    avatar:'German and Central European characters, clean and professional appearance',
+    names:['Lukas','Anna','Maximilian','Laura','Felix','Lisa','Jan','Emma','Tobias','Julia','Stefan','Lena'],
+    cities:['Berlin','München','Hamburg','Frankfurt','Köln','Stuttgart','Wien, Österreich','Zürich, Schweiz'],
+    ctaDefault:'Jetzt bestellen — Schnelle Lieferung',
+    urgency:'⚠️ BEGRENZTE STÜCKZAHL — JETZT BESTELLEN !',
+    trust:'Schnelle Lieferung • Kostenloser Rückversand • Sichere Zahlung',
+    lang:'German (modern German direct-response)',
+    visuals:'German urban lifestyle, clean minimalist aesthetic, modern professional context',
+    tone:'precise German direct-response, quality-focused and benefit-driven',
+    textSample:{hero:'MEISTERE DEINEN ALLTAG MIT STIL UND PRÄZISION !', problem:'MÜDE, WICHTIGE ANRUFE BEIM TRAINING ZU VERPASSEN ?', solution:'DIE ULTIMATIVE LÖSUNG IST ENDLICH DA !', cta:'JETZT BESTELLEN — SCHNELLE LIEFERUNG'}
+  }
+];
+
+// ====================================================
+// STATE
+// ====================================================
+let selectedLang = null;
+let selectedOffer = 'single';
+let reviews = [];
+let autoReviews = true;
+let smartMode = true;
+let generatedPrompt = '';
+
+// ====================================================
+// RENDER LANGS
+// ====================================================
+function renderLangs() {
+  const grid = document.getElementById('langGrid');
+  grid.innerHTML = LANGS.map(l => `
+    <div class="lang-card ${selectedLang===l.code?'active':''}" onclick="pickLang('${l.code}')">
+      <span class="lang-flag">${l.flag}</span>
+      <div class="lang-info">
+        <div class="lang-name">${l.name}</div>
+        <div class="lang-mkt">${l.mkt}</div>
+      </div>
+      <div class="lang-dot"></div>
+    </div>`).join('');
+}
+
+function pickLang(code) {
+  selectedLang = code;
+  renderLangs();
+}
+
+// ====================================================
+// OFFER
+// ====================================================
+function selectOffer(type, btn) {
+  selectedOffer = type;
+  document.querySelectorAll('.offer-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ====================================================
+// TOGGLES
+// ====================================================
+function toggleSmart(el) {
+  el.classList.toggle('on');
+  smartMode = el.classList.contains('on');
+}
+
+function toggleAutoRev(el) {
+  el.classList.toggle('on');
+  autoReviews = el.classList.contains('on');
+  document.getElementById('manualRevs').style.display = autoReviews ? 'none' : 'block';
+  document.getElementById('autoRevHint').style.display = autoReviews ? 'block' : 'none';
+}
+
+// ====================================================
+// REVIEWS
+// ====================================================
+function addReview() {
+  if(reviews.length >= 5) return;
+  reviews.push({ name:'', city:'', stars:5, text:'' });
+  renderReviews();
+}
+
+function removeReview(i) {
+  reviews.splice(i,1);
+  renderReviews();
+}
+
+function setStars(ri, s) {
+  reviews[ri].stars = s;
+  renderReviews();
+}
+
+function updateReview(i, field, val) {
+  reviews[i][field] = val;
+}
+
+function renderReviews() {
+  const list = document.getElementById('revList');
+  list.innerHTML = reviews.map((r,i) => `
+    <div class="rev-item">
+      <button class="rev-remove" onclick="removeReview(${i})">✕</button>
+      <div class="rev-row">
+        <div class="field-group">
+          <label class="field-label">Prénom & nom</label>
+          <input type="text" value="${r.name}" oninput="updateReview(${i},'name',this.value)" placeholder="ex: Mamadou K.">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ville, Pays</label>
+          <input type="text" value="${r.city}" oninput="updateReview(${i},'city',this.value)" placeholder="ex: Abidjan, CI">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Note</label>
+          <div class="stars-row">${[1,2,3,4,5].map(s=>`<button class="star-btn${s<=r.stars?' lit':''}" onclick="setStars(${i},${s})">★</button>`).join('')}</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Texte de l'avis</label>
+        <textarea style="min-height:55px;" oninput="updateReview(${i},'text',this.value)" placeholder="Témoignage du client...">${r.text}</textarea>
+      </div>
+    </div>`).join('');
+}
+
+// ====================================================
+// VALIDATION
+// ====================================================
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(()=>{ el.style.display='none'; }, 4000);
+}
+
+function clearError() {
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+// ====================================================
+// AUTO REVIEW GENERATOR
+// ====================================================
+function generateAutoReviews(lang, productName) {
+  const names = lang.names;
+  const cities = lang.cities;
+  const isBundle = selectedOffer === 'bundle';
+
+  const templates = [
+    (n,c,p,stars) => ({ name:n, city:c, stars:5, text: getReviewText(lang.code, 0, p, isBundle) }),
+    (n,c,p,stars) => ({ name:n, city:c, stars:5, text: getReviewText(lang.code, 1, p, isBundle) }),
+    (n,c,p,stars) => ({ name:n, city:c, stars:4, text: getReviewText(lang.code, 2, p, isBundle) }),
+  ];
+
+  const pick = (arr) => arr[Math.floor(Math.random()*arr.length)];
+  const usedNames = [];
+  const getUniqueName = () => {
+    let n; let tries=0;
+    do { n = pick(names); tries++; } while(usedNames.includes(n) && tries<20);
+    usedNames.push(n); return n;
+  };
+
+  return templates.slice(0,3).map((t,i) => t(getUniqueName(), pick(cities), productName, 5-Math.floor(i/2)));
+}
+
+function getReviewText(langCode, idx, productName, isBundle) {
+  const texts = {
+    'fr-afrique': [
+      `${productName} a changé ma vie ! Je reçois mes appels et messages sans toucher mon téléphone. La qualité est incroyable pour le prix. Je l'ai déjà recommandé à toute ma famille !`,
+      `Je fais du sport tous les matins et ${productName} est mon compagnon idéal. Je vois mes calories et mon rythme cardiaque en temps réel. Livraison le lendemain, je suis vraiment satisfait(e) !`,
+      `Très bon produit, facile à utiliser et de qualité solide. ${isBundle?'Le pack est vraiment complet, tout est là.':'La livraison était rapide et le produit bien emballé.'} Je recommande sans hésiter.`
+    ],
+    'darija': [
+      `${productName} غيّرت حياتي ! كنتلقى المكالمات والرسائل بدون ما نخرج التيليفون. الجودة مزيانة بزاف للسعر. سيفطتها لعيلتي كامل !`,
+      `كنديخ كل صباح و${productName} هي صاحبتي المثالية. كنشوف السعرات والقلب في الوقت الحقيقي. التوصيل من غدّو، ماشي ندموش !`,
+      `منتج مزيان بزاف، سهل الاستخدام وجودة قوية. ${isBundle?'الباك كامل، كولشي موجود.':'التوصيل كان سريع والمنتج مغلّف زوين.'} كنوصي بيه بلا تردد.`
+    ],
+    'ar-gulf': [
+      `${productName} غيّرت حياتي ! أستقبل المكالمات والرسائل دون لمس هاتفي. الجودة مذهلة بهذا السعر. أوصيت بها لكل عائلتي !`,
+      `أمارس الرياضة كل صباح و${productName} رفيقتي المثالية. أرى السعرات الحرارية والنبض في الوقت الفعلي. التوصيل في اليوم التالي، ممتاز !`,
+      `منتج رائع وسهل الاستخدام وجودة ممتازة. ${isBundle?'الباقة متكاملة، كل شيء موجود.':'التوصيل كان سريعاً والمنتج مغلف بشكل جيد.'} أنصح به بدون تردد.`
+    ],
+    'en-global': [
+      `${productName} has completely changed my daily routine! I receive calls and messages without touching my phone. Amazing quality for the price. Already recommended it to all my friends!`,
+      `I work out every morning and ${productName} is my perfect companion. I can see my calories and heart rate in real-time. Next day delivery and I'm absolutely thrilled!`,
+      `Great product, easy to use and solid quality. ${isBundle?'The bundle is really complete, everything is included.':'Fast delivery and well packaged.'} Would definitely recommend!`
+    ],
+    'fr-fr': [
+      `${productName} a changé ma routine ! Je reçois mes appels sans sortir mon téléphone. La qualité est impressionnante. Je l'ai déjà recommandé à tous mes collègues !`,
+      `Je fais du sport chaque matin et ${productName} est mon compagnon parfait. Je suis mes calories et mon rythme en temps réel. Livraison ultra-rapide, très satisfait(e) !`,
+      `Excellent produit, simple à utiliser et très solide. ${isBundle?'Le pack est vraiment complet, tout y est.':'La livraison était rapide et bien emballé.'} Je recommande sans hésiter.`
+    ],
+    'es': [
+      `¡${productName} cambió mi rutina por completo! Recibo llamadas y mensajes sin tocar el móvil. Calidad increíble por el precio. ¡Ya se lo recomendé a toda mi familia!`,
+      `Hago deporte cada mañana y ${productName} es mi compañero ideal. Veo mis calorías y frecuencia cardíaca en tiempo real. ¡Entrega al día siguiente, muy satisfecho(a)!`,
+      `Excelente producto, fácil de usar y muy sólido. ${isBundle?'El pack es realmente completo, todo incluido.':'La entrega fue rápida y bien empaquetado.'} ¡Lo recomiendo sin dudar!`
+    ],
+    'it': [
+      `${productName} ha cambiato la mia routine! Ricevo chiamate e messaggi senza toccare il telefono. Qualità incredibile per il prezzo. L'ho già consigliato a tutta la famiglia!`,
+      `Faccio sport ogni mattina e ${productName} è il mio compagno perfetto. Vedo calorie e battito in tempo reale. Consegna il giorno dopo, sono molto soddisfatto(a)!`,
+      `Prodotto eccellente, facile da usare e molto solido. ${isBundle?'Il bundle è davvero completo, c\'è tutto.':'La consegna è stata rapida e ben confezionato.'} Lo raccomando senza esitazione!`
+    ],
+    'de': [
+      `${productName} hat meinen Alltag verändert! Ich empfange Anrufe und Nachrichten ohne mein Handy zu berühren. Unglaubliche Qualität für den Preis. Habe es bereits allen empfohlen!`,
+      `Ich trainiere jeden Morgen und ${productName} ist mein perfekter Begleiter. Ich sehe Kalorien und Herzfrequenz in Echtzeit. Lieferung am nächsten Tag, sehr zufrieden!`,
+      `Tolles Produkt, einfach zu bedienen und sehr solide. ${isBundle?'Das Bundle ist wirklich komplett, alles dabei.':'Die Lieferung war schnell und gut verpackt.'} Kann ich uneingeschränkt empfehlen!`
+    ]
+  };
+
+  const arr = texts[langCode] || texts['fr-afrique'];
+  return arr[idx] || arr[0];
+}
+
+// ====================================================
+// AUTO-SUGGEST COLOR PALETTE
+// ====================================================
+function suggestPalette(desc, cat) {
+  const text = (desc + ' ' + cat).toLowerCase();
+  if (text.includes('sport') || text.includes('fitness') || text.includes('gym'))
+    return 'energetic neon green (#39FF14) and matte black (#0A0A0A) with electric blue accents';
+  if (text.includes('beauté') || text.includes('beauty') || text.includes('soin') || text.includes('cosmétique'))
+    return 'soft rose gold (#D4A5A5) and cream white (#FAF7F5) with gold accents';
+  if (text.includes('cuisine') || text.includes('food') || text.includes('nourriture'))
+    return 'warm terracotta (#C84B31) and cream (#FFF8F0) with green herbal accents';
+  if (text.includes('tech') || text.includes('électronique') || text.includes('montre') || text.includes('watch') || text.includes('gadget'))
+    return 'sleek matte black (#0A0A0A) and dark slate (#1A1A2E) with neon green (#39FF14) and gold (#FFD700)';
+  if (text.includes('luxe') || text.includes('luxury') || text.includes('premium') || text.includes('or ') || text.includes('gold'))
+    return 'deep black (#0A0A0A) and rich champagne gold (#D4AF37) with cream white accents';
+  if (text.includes('santé') || text.includes('health') || text.includes('médical') || text.includes('bio') || text.includes('nature'))
+    return 'fresh white (#FAFAFA) and forest green (#2D6A4F) with light teal accents';
+  return 'premium dark black (#111111) and white with bold accent colors relevant to the product';
+}
+
+// ====================================================
+// PROMPT GENERATOR
+// ====================================================
+function generatePromptText(lang, offer, product) {
+  const isBundle = offer === 'bundle';
+  const t = lang.textSample;
+  const palette = product.colors || suggestPalette(product.desc, product.cat);
+  const ctaText = product.cta || lang.ctaDefault;
+  const brandName = product.brand ? `Brand: ${product.brand}. ` : '';
+  const priceText = product.price ? `Price displayed: ${product.price}. ` : '';
+  const audienceText = product.audience ? `Target audience: ${product.audience}. ` : '';
+
+  // Build reviews block
+  let reviewsBlock = '';
+  const revList = product.reviews;
+  revList.forEach((r, i) => {
+    const stars = '★'.repeat(r.stars) + '☆'.repeat(5-r.stars);
+    const avatarDesc = `realistic avatar of a ${lang.avatar.split(',')[0]} ${i%2===0?'man':'woman'}, ${30+i*5}s, friendly smile`;
+    reviewsBlock += `
+REVIEW CARD ${i+1}: Dark rounded card with thin accent border. Left side: circular photo-realistic avatar — ${avatarDesc}. Right side: "${stars}" in glowing gold. Name in bold white: "${r.name.toUpperCase()} — ${r.city.toUpperCase()}". Review text in medium ${lang.lang} white: "${r.text}"
+`;
+  });
+
+  const offerVisual = isBundle
+    ? `The product bundle is displayed as a group of ${product.name} items arranged in a premium flat-lay composition with all components visible and clearly identifiable.`
+    : `The single hero product — ${product.name} — is prominently centered and repeated throughout the visual journey.`;
+
+  return `Act as a world-class Mobile E-commerce Designer. Generate an ultra-long vertical infographic landing page IMAGE (aspect ratio 9:32 or longer) for ${isBundle?'the following product bundle':'the following product'}: ${product.name}. ${brandName}${priceText}${audienceText}
+
+CRITICAL FORMAT RULE: DO NOT write any HTML, CSS, UI code, or text-based code. You MUST generate a purely visual, single continuous graphical IMAGE.
+
+CULTURAL ADAPTATION: All human characters must be ${lang.avatar}. All names, cities and cultural references must match the ${lang.mkt} market. All selling copy must be written in ${lang.lang}.
+
+COLOR PALETTE & AESTHETIC: ${palette}. Smooth continuous gradient flow throughout. Dynamic background with particle effects and glowing accent lights. No hard section dividers — smooth transitions only. Kinetic energy lines and subtle depth layers throughout.
+
+${offerVisual}
+
+---
+
+[SECTION 1 — HERO / WOW]
+Background: deep dark with radial glow at center using accent color. Top badge (small pill): bold text "NOUVEAUTÉ" or "NEW" in accent color. Center: ${product.name} displayed large and luminous with glowing premium aura. HUGE BOLD WHITE TEXT (condensed heavy display font): "${t.hero}" Large white semi-bold text below: "${product.desc.substring(0,120).trim()}..." Bottom: confident ${lang.avatar.split(',')[0]} character wearing/using the product in an aspirational pose, ${lang.visuals} in background.
+
+---
+
+[SECTION 2 — PROBLEM / PAIN POINT]
+Smooth transition to muted cold dark background. Frustrated ${lang.avatar.split(',')[0]} character looking stressed without the product. Problem icons floating around with red glow: missed call, low battery, broken notification, stress icon. LARGE BOLD RED TEXT: "${t.problem}" Medium white text below: description of the problem the product solves in ${lang.lang}. Atmosphere: heavy, suffocating, emotionally tense.
+
+---
+
+[SECTION 3 — SOLUTION REVEALED]
+Burst of accent-colored light expanding from center — triumphant product reveal. ${product.name} centered with full premium glowing aura and light rays. HUGE BOLD GRADIENT TEXT (accent to gold): "${t.solution.toUpperCase()}" Large white text: key benefit summary in ${lang.lang}. Background: digital circuit lines and particle shower in accent color.
+
+---
+
+[SECTION 4 — BEFORE / AFTER]
+Two-column split layout joined at center. LEFT (dark, desaturated, cold tint): frustrated ${lang.avatar.split(',')[0]} character without the product, red overlay, RED TEXT "❌ AVANT / BEFORE" with pain-point list in ${lang.lang}. RIGHT (vibrant, warm, bright): same character now smiling and using ${product.name}, accent color overlay, GREEN TEXT "✅ APRÈS / AFTER" with benefit list in ${lang.lang}. Center: thin glowing accent divider with lightning bolt icon.
+
+---
+
+[SECTION 5 — FEATURE SPOTLIGHT]
+Dark technical background with fine grid lines and holographic UI elements. Extreme close-up of ${product.name} showing its key feature in detail — ultra-sharp, hyperdetailed product photography style. Circular orbit of 4-6 feature badges around the product, each badge: dark card with accent icon and white text listing key specs from: ${product.desc.substring(0,200)}. LARGE BOLD TEXT in accent color: "CARACTÉRISTIQUES CLÉS / KEY FEATURES" in ${lang.lang}. Clean white explanatory text below.
+
+---
+
+[SECTION 6 — COMPARISON: OUR PRODUCT VS ORDINARY]
+Matte dark background with subtle texture. Two-column split. LEFT COLUMN (glowing, vibrant): ${product.name} with full premium aura. Header in accent green: "NOTRE PRODUIT / OUR PRODUCT ✅". Below: green checkmark list of 6-8 advantages in ${lang.lang}. RIGHT COLUMN (dull, gray, desaturated): a generic cheap-looking alternative with dull gray overlay. Header in faded red: "PRODUIT ORDINAIRE ❌". Below: red cross list of 5-6 weaknesses in ${lang.lang}. Thin accent vertical separator at center.
+
+---
+
+[SECTION 7 — LIFESTYLE]
+Full-width lifestyle scene: confident ${lang.avatar.split(',')[0]} character in their natural environment (${lang.visuals}) actively using ${product.name}. The product is prominent in the mid-foreground. Mood: aspirational, authentic, powerful — this is THEM after buying. Atmospheric warm lighting. HUGE BOLD WHITE TEXT above: "VOTRE MEILLEUR INVESTISSEMENT" in ${lang.lang}. Large white subtext: lifestyle benefit copy in ${lang.lang}. Small accent-colored text at bottom: market-specific social proof reference mentioning ${lang.cities.slice(0,3).join(', ')}.
+
+---
+
+[SECTION 8 — CUSTOMER REVIEWS / SOCIAL PROOF]
+Dark warm background with subtle gold particle shimmer. Centered header: LARGE BOLD WHITE TEXT "APPROUVÉ PAR NOS CLIENTS" in ${lang.lang} with 5 large glowing gold stars ★★★★★ below it.
+${reviewsBlock}
+Cards arranged vertically with gold borders and rounded corners. Each card has a glowing gold star rating, circular avatar, bold name, and white review text in ${lang.lang}.
+
+---
+
+[SECTION 9 — FOOTER / CTA / URGENCY]
+Solid deep dark background with intense accent glow at center bottom and gold particle burst at top. ${product.name} displayed large and luminous at center. Large bold white text with warning icon: "${lang.urgency}" Below: HUGE 3D-style button in gold/accent with BOLD BLACK TEXT: "${ctaText.toUpperCase()}" Button has inner glow and premium shadow. Below button in small white text: "${lang.trust}" Very bottom: thin accent horizontal line as footer seal.
+
+---
+
+Render as one single seamless continuous vertical image, 9:32 ratio or longer, ultra-high resolution, photorealistic characters, hyperdetailed product shots, cinematic premium lighting, modern mobile e-commerce landing page infographic style, no visible section cuts, smooth gradient transitions between all segments. --ar 9:32 --v 6 --style raw --q 2`;
+}
+
+// ====================================================
+// MAIN GENERATE
+// ====================================================
+function generatePrompt() {
+  clearError();
+
+  if (!selectedLang) { showError('Veuillez sélectionner une langue / marché cible.'); return; }
+
+  const name = document.getElementById('pName').value.trim();
+  const cat = document.getElementById('pCat').value.trim();
+  const desc = document.getElementById('pDesc').value.trim();
+
+  if (!name) { showError('Veuillez saisir le nom du produit.'); return; }
+  if (!desc) { showError('Veuillez décrire les caractéristiques du produit.'); return; }
+
+  const lang = LANGS.find(l => l.code === selectedLang);
+
+  // Build reviews
+  let finalReviews = [];
+  if (autoReviews) {
+    finalReviews = generateAutoReviews(lang, name);
+  } else {
+    finalReviews = reviews.filter(r => r.name && r.text);
+    if (finalReviews.length === 0) {
+      finalReviews = generateAutoReviews(lang, name);
+    }
+  }
+
+  const product = {
+    name,
+    cat,
+    desc,
+    price: document.getElementById('pPrice').value.trim(),
+    brand: document.getElementById('pBrand').value.trim(),
+    cta: document.getElementById('pCta').value.trim(),
+    colors: document.getElementById('pColors').value.trim(),
+    audience: document.getElementById('pAudience').value.trim(),
+    reviews: finalReviews
+  };
+
+  generatedPrompt = generatePromptText(lang, selectedOffer, product);
+
+  // Show output
+  document.getElementById('outputEmpty').style.display = 'none';
+  const card = document.getElementById('outputCard');
+  card.classList.add('visible');
+  document.getElementById('outputContent').textContent = generatedPrompt;
+
+  // Meta
+  const wordCount = generatedPrompt.split(/\s+/).length;
+  document.getElementById('outputMeta').innerHTML = `
+    <div class="meta-item"><div class="meta-dot"></div>${lang.flag} ${lang.name}</div>
+    <div class="meta-item"><div class="meta-dot"></div>${selectedOffer==='single'?'📦 Produit unique':'🎁 Pack / Bundle'}</div>
+    <div class="meta-item"><div class="meta-dot"></div>~${wordCount} mots</div>
+    <div class="meta-item"><div class="meta-dot"></div>9 sections</div>
+    <div class="meta-item"><div class="meta-dot"></div>${finalReviews.length} avis</div>
+  `;
+
+  card.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ====================================================
+// COPY
+// ====================================================
+function copyPrompt() {
+  if (!generatedPrompt) return;
+  navigator.clipboard.writeText(generatedPrompt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copié !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+// ====================================================
+// CLEAR
+// ====================================================
+function clearForm() {
+  selectedLang = null;
+  selectedOffer = 'single';
+  reviews = [];
+  generatedPrompt = '';
+  renderLangs();
+  document.querySelectorAll('.offer-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.offer-btn').classList.add('active');
+  document.getElementById('pName').value = '';
+  document.getElementById('pCat').value = '';
+  document.getElementById('pDesc').value = '';
+  document.getElementById('pPrice').value = '';
+  document.getElementById('pBrand').value = '';
+  document.getElementById('pCta').value = '';
+  document.getElementById('pColors').value = '';
+  document.getElementById('pAudience').value = '';
+  document.getElementById('revList').innerHTML = '';
+  document.getElementById('outputCard').classList.remove('visible');
+  document.getElementById('outputEmpty').style.display = 'flex';
+}
+
+// ====================================================
+// INIT
+// ====================================================
+renderLangs();
+</script>
+</body>
+</html>
