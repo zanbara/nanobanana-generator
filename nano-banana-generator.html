@@ -675,6 +675,357 @@ select option { background: var(--bg3); }
   margin-top: 12px;
   display: none;
 }
+
+/* ====================================================
+   NEW: OUTPUT TABS
+   ==================================================== */
+.output-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text3);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover { color: var(--text2); background: rgba(255,255,255,0.04); }
+
+.tab-btn.active {
+  background: var(--card2);
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+
+.tab-btn.active .tab-icon { color: var(--accent); }
+
+.tab-icon { font-size: 14px; }
+
+/* ====================================================
+   NEW: ANGLE & FORMAT BUTTONS (reuse offer-btn style)
+   ==================================================== */
+.angle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+
+.angle-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  cursor: pointer;
+  background: transparent;
+  text-align: center;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.angle-btn:hover { border-color: rgba(181,242,60,0.35); background: var(--accent-dim); }
+.angle-btn.active { border-color: var(--accent); background: var(--accent-dim); }
+
+.angle-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+.angle-label { font-size: 11px; font-weight: 500; color: var(--text); display: block; line-height: 1.3; }
+
+.format-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.format-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 12px;
+  cursor: pointer;
+  background: transparent;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.format-btn:hover { border-color: rgba(181,242,60,0.35); background: var(--accent-dim); }
+.format-btn.active { border-color: var(--accent); background: var(--accent-dim); }
+
+.format-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+.format-label { font-size: 12px; font-weight: 500; color: var(--text); display: block; }
+.format-sub { font-size: 10px; color: var(--text3); display: block; margin-top: 1px; }
+
+/* ====================================================
+   NEW: DURATION SLIDER
+   ==================================================== */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.slider-label-group { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.slider-val { font-size: 13px; font-weight: 600; color: var(--accent); font-family: 'Plus Jakarta Sans', sans-serif; }
+.slider-unit { font-size: 11px; color: var(--text3); }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid #0c0c0f;
+  box-shadow: 0 0 6px rgba(181,242,60,0.4);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid #0c0c0f;
+}
+
+.duration-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.dur-section {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.dur-section-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+
+/* ====================================================
+   NEW: SCRIPT OUTPUT CARD
+   ==================================================== */
+.script-output-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: none;
+}
+
+.script-output-card.visible { display: block; }
+
+.script-topbar {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card2);
+  flex-wrap: wrap;
+}
+
+.script-tag {
+  font-size: 10px;
+  background: rgba(240,192,96,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(240,192,96,0.3);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+.scenarios-wrap { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+
+.scenario-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg3);
+}
+
+.scenario-header {
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card2);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.scenario-header:hover { background: rgba(255,255,255,0.04); }
+
+.scenario-title-row { display: flex; align-items: center; gap: 10px; }
+
+.scenario-badge {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.sc1 .scenario-badge { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(181,242,60,0.25); }
+.sc2 .scenario-badge { background: rgba(240,192,96,0.12); color: var(--gold); border: 1px solid rgba(240,192,96,0.25); }
+.sc3 .scenario-badge { background: var(--danger-dim); color: var(--danger); border: 1px solid rgba(255,90,90,0.25); }
+
+.scenario-name { font-size: 12px; font-weight: 600; color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
+.scenario-sub { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+.scenario-copy-btn {
+  padding: 5px 12px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text3);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scenario-copy-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.scenario-copy-btn.copied { border-color: var(--accent); color: var(--accent); }
+
+.scenario-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.script-part {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.part-header {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.part-hook .part-header { background: rgba(181,242,60,0.1); color: var(--accent); }
+.part-body .part-header { background: rgba(255,255,255,0.05); color: var(--text2); }
+.part-cta .part-header { background: rgba(240,192,96,0.1); color: var(--gold); }
+
+.part-duration { font-size: 10px; opacity: 0.7; font-weight: 500; letter-spacing: 0; }
+
+.part-text {
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text2);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.chevron {
+  font-size: 11px;
+  color: var(--text3);
+  transition: transform 0.2s;
+}
+
+.scenario-card.collapsed .scenario-body { display: none; }
+.scenario-card.collapsed .chevron { transform: rotate(-90deg); }
+
+.script-actions {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.script-empty {
+  display: none;
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text3);
+}
+
+.script-empty.visible { display: block; }
+.script-empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.35; }
+.script-empty-title { font-size: 14px; font-weight: 600; color: var(--text2); font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 6px; }
+.script-empty-sub { font-size: 12px; line-height: 1.6; }
+
+/* Script generate button */
+.btn-script {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #f0c060, #e09030);
+  border: none;
+  border-radius: var(--radius);
+  color: #0c0c0f;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.btn-script:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(240,192,96,0.3); }
+.btn-script:active { transform: translateY(0); }
+
+.script-error-msg {
+  background: var(--danger-dim);
+  border: 1px solid rgba(255,90,90,0.2);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-top: 12px;
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -688,7 +1039,7 @@ select option { background: var(--bg3); }
     <div class="logo-icon">🍌</div>
     Nano<span>Banana</span> Generator
   </div>
-  <div class="nav-badge">v2.0 Pro</div>
+  <div class="nav-badge">v3.0 Pro</div>
 </nav>
 
 <!-- MAIN LAYOUT -->
@@ -825,34 +1176,195 @@ select option { background: var(--bg3); }
     </button>
     <div class="error-msg" id="errorMsg"></div>
 
+    <!-- DIVIDER -->
+    <div style="height:1px;background:var(--border);margin:1.5rem 0;"></div>
+    <div class="panel-title" style="margin-bottom:1rem;">Script vidéo — Configuration</div>
+
+    <!-- 5. ANGLE MARKETING -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--gold);color:#0c0c0f;">5</div>
+        <div class="section-title">Angle marketing</div>
+        <span class="badge-req">Requis</span>
+      </div>
+      <div class="section-body">
+        <div class="angle-grid" id="angleGrid">
+          <button class="angle-btn active" data-angle="pain" onclick="selectAngle('pain',this)">
+            <span class="angle-icon">😣</span>
+            <span class="angle-label">Douleur / Problème</span>
+          </button>
+          <button class="angle-btn" data-angle="transformation" onclick="selectAngle('transformation',this)">
+            <span class="angle-icon">✨</span>
+            <span class="angle-label">Transformation</span>
+          </button>
+          <button class="angle-btn" data-angle="opportunity" onclick="selectAngle('opportunity',this)">
+            <span class="angle-icon">🚀</span>
+            <span class="angle-label">Opportunité</span>
+          </button>
+          <button class="angle-btn" data-angle="fomo" onclick="selectAngle('fomo',this)">
+            <span class="angle-icon">⏰</span>
+            <span class="angle-label">FOMO / Urgence</span>
+          </button>
+          <button class="angle-btn" data-angle="proof" onclick="selectAngle('proof',this)">
+            <span class="angle-icon">⭐</span>
+            <span class="angle-label">Preuve sociale</span>
+          </button>
+          <button class="angle-btn" data-angle="curiosity" onclick="selectAngle('curiosity',this)">
+            <span class="angle-icon">🤔</span>
+            <span class="angle-label">Curiosité / Wow</span>
+          </button>
+        </div>
+        <p class="helper" style="margin-top:10px;">Détermine l'approche émotionnelle et rhétorique des 3 scénarios générés.</p>
+      </div>
+    </div>
+
+    <!-- 6. FORMAT VIDÉO -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--gold);color:#0c0c0f;">6</div>
+        <div class="section-title">Format vidéo</div>
+        <span class="badge-req">Requis</span>
+      </div>
+      <div class="section-body">
+        <div class="format-grid">
+          <button class="format-btn active" data-format="ugc" onclick="selectFormat('ugc',this)">
+            <span class="format-icon">🎤</span>
+            <span class="format-label">Face cam (UGC)</span>
+            <span class="format-sub">Je / Tu — conversationnel</span>
+          </button>
+          <button class="format-btn" data-format="voiceover" onclick="selectFormat('voiceover',this)">
+            <span class="format-icon">🎙️</span>
+            <span class="format-label">Voice Over + B-Roll</span>
+            <span class="format-sub">Narration descriptive</span>
+          </button>
+          <button class="format-btn" data-format="story" onclick="selectFormat('story',this)">
+            <span class="format-icon">📖</span>
+            <span class="format-label">Storytelling</span>
+            <span class="format-sub">Mini histoire narrative</span>
+          </button>
+          <button class="format-btn" data-format="demo" onclick="selectFormat('demo',this)">
+            <span class="format-icon">📱</span>
+            <span class="format-label">Démo produit</span>
+            <span class="format-sub">Focus usage & fonctions</span>
+          </button>
+        </div>
+        <p class="helper" style="margin-top:10px;">Adapte le ton et la structure de chaque script au type de vidéo souhaité.</p>
+      </div>
+    </div>
+
+    <!-- 7. DURÉE DES PARTIES -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--gold);color:#0c0c0f;">7</div>
+        <div class="section-title">Durée de chaque partie</div>
+        <span class="badge-opt">Ajustable</span>
+      </div>
+      <div class="section-body">
+        <div class="duration-grid">
+          <div class="dur-section">
+            <div class="dur-section-label">🎣 Hook</div>
+            <div class="slider-label-group">
+              <span class="slider-val" id="hookVal">4</span>
+              <span class="slider-unit">sec</span>
+            </div>
+            <input type="range" min="3" max="6" value="4" step="1" id="hookSlider"
+              oninput="document.getElementById('hookVal').textContent=this.value">
+          </div>
+          <div class="dur-section">
+            <div class="dur-section-label">📣 Body</div>
+            <div class="slider-label-group">
+              <span class="slider-val" id="bodyVal">18</span>
+              <span class="slider-unit">sec</span>
+            </div>
+            <input type="range" min="12" max="25" value="18" step="1" id="bodySlider"
+              oninput="document.getElementById('bodyVal').textContent=this.value">
+          </div>
+          <div class="dur-section">
+            <div class="dur-section-label">🛒 CTA</div>
+            <div class="slider-label-group">
+              <span class="slider-val" id="ctaVal">4</span>
+              <span class="slider-unit">sec</span>
+            </div>
+            <input type="range" min="3" max="6" value="4" step="1" id="ctaSlider"
+              oninput="document.getElementById('ctaVal').textContent=this.value">
+          </div>
+        </div>
+        <p class="helper" style="margin-top:10px;">Le nombre de mots sera ajusté automatiquement (~3 mots/seconde en voice over).</p>
+      </div>
+    </div>
+
+    <!-- SCRIPT GENERATE BUTTON -->
+    <button class="btn-script" id="scriptBtn" onclick="generateScripts()">
+      🎬 Générer les 3 Scripts Vidéo
+    </button>
+    <div class="script-error-msg" id="scriptErrorMsg"></div>
+
   </div>
 
   <!-- RIGHT: OUTPUT PANEL -->
   <div class="output-panel">
-    <div class="panel-title">Prompt généré</div>
+    <div class="panel-title">Résultats générés</div>
 
-    <!-- EMPTY STATE -->
-    <div class="output-empty" id="outputEmpty">
-      <div class="output-empty-icon">🍌</div>
-      <div class="output-empty-title">Votre prompt apparaîtra ici</div>
-      <div class="output-empty-sub">Configurez votre produit et marché cible, puis cliquez sur Générer pour obtenir votre prompt Nanobanana complet prêt à coller.</div>
+    <!-- TABS -->
+    <div class="output-tabs">
+      <button class="tab-btn active" id="tab-prompt" onclick="switchTab('prompt')">
+        <span class="tab-icon">🍌</span> Landing Prompt
+      </button>
+      <button class="tab-btn" id="tab-script" onclick="switchTab('script')">
+        <span class="tab-icon">🎬</span> Scripts Vidéo
+      </button>
     </div>
 
-    <!-- OUTPUT CARD -->
-    <div class="output-card" id="outputCard">
-      <div class="output-topbar">
-        <div class="output-title">
-          Prompt Nanobanana <span class="output-tag">PRÊT À COPIER</span>
+    <!-- ===== TAB 1: PROMPT ===== -->
+    <div id="pane-prompt">
+      <!-- EMPTY STATE -->
+      <div class="output-empty" id="outputEmpty">
+        <div class="output-empty-icon">🍌</div>
+        <div class="output-empty-title">Votre prompt apparaîtra ici</div>
+        <div class="output-empty-sub">Configurez votre produit et marché cible, puis cliquez sur Générer pour obtenir votre prompt Nanobanana complet prêt à coller.</div>
+      </div>
+
+      <!-- OUTPUT CARD -->
+      <div class="output-card" id="outputCard">
+        <div class="output-topbar">
+          <div class="output-title">
+            Prompt Nanobanana <span class="output-tag">PRÊT À COPIER</span>
+          </div>
+          <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">📋 Copier</button>
         </div>
-        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">📋 Copier</button>
-      </div>
-      <div class="output-meta" id="outputMeta"></div>
-      <div class="output-content" id="outputContent"></div>
-      <div class="output-actions">
-        <button class="btn-secondary" onclick="generatePrompt()">🔄 Régénérer</button>
-        <button class="btn-ghost" onclick="clearForm()">✕ Effacer le formulaire</button>
+        <div class="output-meta" id="outputMeta"></div>
+        <div class="output-content" id="outputContent"></div>
+        <div class="output-actions">
+          <button class="btn-secondary" onclick="generatePrompt()">🔄 Régénérer</button>
+          <button class="btn-ghost" onclick="clearForm()">✕ Effacer le formulaire</button>
+        </div>
       </div>
     </div>
+
+    <!-- ===== TAB 2: SCRIPTS ===== -->
+    <div id="pane-script" style="display:none;">
+      <!-- EMPTY STATE -->
+      <div class="script-empty visible" id="scriptEmpty">
+        <div class="script-empty-icon">🎬</div>
+        <div class="script-empty-title">Vos scripts vidéo apparaîtront ici</div>
+        <div class="script-empty-sub">Renseignez l'angle marketing, le format vidéo et ajustez les durées, puis cliquez sur <strong>Générer les 3 Scripts Vidéo</strong>.</div>
+      </div>
+
+      <!-- SCRIPT OUTPUT CARD -->
+      <div class="script-output-card" id="scriptOutputCard">
+        <div class="script-topbar">
+          <div class="output-title">
+            🎬 Scripts Vidéo <span class="script-tag">3 SCÉNARIOS</span>
+          </div>
+          <button class="copy-btn" id="copyAllBtn" onclick="copyAllScripts()" style="background:var(--gold);color:#0c0c0f;">📋 Tout copier</button>
+        </div>
+        <div class="scenarios-wrap" id="scenariosWrap"></div>
+        <div class="script-actions">
+          <button class="btn-secondary" onclick="generateScripts()">🔄 Régénérer</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -1370,6 +1882,538 @@ function clearForm() {
 // INIT
 // ====================================================
 renderLangs();
+
+// ====================================================
+// NEW STATE — SCRIPT GENERATOR
+// ====================================================
+let selectedAngle = 'pain';
+let selectedFormat = 'ugc';
+let generatedScripts = [];
+
+// ====================================================
+// TAB SWITCHING
+// ====================================================
+function switchTab(tab) {
+  document.getElementById('pane-prompt').style.display = tab === 'prompt' ? 'block' : 'none';
+  document.getElementById('pane-script').style.display = tab === 'script' ? 'block' : 'none';
+  document.getElementById('tab-prompt').classList.toggle('active', tab === 'prompt');
+  document.getElementById('tab-script').classList.toggle('active', tab === 'script');
+}
+
+// ====================================================
+// ANGLE & FORMAT SELECTORS
+// ====================================================
+function selectAngle(angle, btn) {
+  selectedAngle = angle;
+  document.querySelectorAll('.angle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectFormat(format, btn) {
+  selectedFormat = format;
+  document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ====================================================
+// PRODUCT TYPE DETECTION
+// ====================================================
+function detectProductType(desc, cat) {
+  const text = (desc + ' ' + cat).toLowerCase();
+  const wowWords = ['wow','incroyable','révolutionnaire','unique','innovation','jamais vu','nouveau','impressionnant','étonnant','magie','smart','intelligent','connecté','high-tech','gadget','amazing','incredible'];
+  const problemWords = ['douleur','problème','fatigue','mal','difficile','souffre','souffrir','pénible','inefficace','lent','cassé','lourd','compliqué','irritant','frustrant','impossible','solution','résout','répare','soulage','aide','facilite'];
+  const wowScore = wowWords.filter(w => text.includes(w)).length;
+  const probScore = problemWords.filter(w => text.includes(w)).length;
+  return probScore >= wowScore ? 'problem' : 'wow';
+}
+
+// ====================================================
+// SCRIPT GENERATION ENGINE
+// ====================================================
+function generateScripts() {
+  const name = document.getElementById('pName').value.trim();
+  const desc = document.getElementById('pDesc').value.trim();
+  const cat  = document.getElementById('pCat').value.trim();
+
+  if (!selectedLang) { showScriptError('Veuillez d\'abord sélectionner une langue / marché cible (section 1).'); return; }
+  if (!name)         { showScriptError('Veuillez saisir le nom du produit (section 3).'); return; }
+  if (!desc)         { showScriptError('Veuillez décrire le produit (section 3).'); return; }
+
+  hideScriptError();
+
+  const lang = LANGS.find(l => l.code === selectedLang);
+  const hookSec = parseInt(document.getElementById('hookSlider').value);
+  const bodySec = parseInt(document.getElementById('bodySlider').value);
+  const ctaSec  = parseInt(document.getElementById('ctaSlider').value);
+  const ctaText = document.getElementById('pCta').value.trim() || lang.ctaDefault;
+  const price   = document.getElementById('pPrice').value.trim();
+  const brand   = document.getElementById('pBrand').value.trim();
+  const productType = detectProductType(desc, cat);
+
+  const hookWords = Math.round(hookSec * 2.8);
+  const bodyWords = Math.round(bodySec * 2.8);
+  const ctaWords  = Math.round(ctaSec  * 2.8);
+
+  const ctx = { lang, name, desc, cat, ctaText, price, brand, hookWords, bodyWords, ctaWords, hookSec, bodySec, ctaSec, productType };
+
+  generatedScripts = [
+    buildScenario1(ctx),
+    buildScenario2(ctx),
+    buildScenario3(ctx)
+  ];
+
+  renderScenarios();
+  switchTab('script');
+}
+
+// ====================================================
+// SCENARIO BUILDERS
+// ====================================================
+
+function getHook(ctx, style) {
+  const { lang, name, productType, hookSec } = ctx;
+  const isWow = productType === 'wow';
+  const isFR  = lang.lang.toLowerCase().includes('french');
+  const isDarija = lang.code === 'darija';
+  const isAr  = lang.code === 'ar-gulf';
+  const isEN  = lang.code === 'en-global';
+  const isES  = lang.code === 'es';
+  const isIT  = lang.code === 'it';
+  const isDE  = lang.code === 'de';
+
+  const angle = selectedAngle;
+  const fmt = selectedFormat;
+
+  // Build hook based on angle + style + productType + lang
+  const hookMap = {
+    pain: {
+      direct: {
+        fr: isWow
+          ? `Tu as vu ça ? ${name} est en train de changer la vie de milliers de personnes.`
+          : `Tu en as marre de ${getCatProblem(ctx.cat, 'fr')} ? Ce produit a tout changé pour moi.`,
+        darija: isWow
+          ? `شفتي هاد الشي؟ ${name} غيّرت حياة ناس بزاف.`
+          : `عيّتي من ${getCatProblem(ctx.cat, 'darija')}؟ هاد المنتاج غيّر ليا كولشي.`,
+        ar: isWow
+          ? `هل رأيت هذا؟ ${name} تغيّر حياة الآلاف.`
+          : `مللت من ${getCatProblem(ctx.cat, 'ar')}؟ هذا المنتج غيّر كل شيء بالنسبة لي.`,
+        en: isWow
+          ? `Wait — have you seen this? ${name} is changing everything.`
+          : `Tired of ${getCatProblem(ctx.cat, 'en')}? This changed everything for me.`,
+        es: isWow
+          ? `¿Viste esto? ${name} está cambiando la vida de miles.`
+          : `¿Cansado de ${getCatProblem(ctx.cat, 'es')}? Esto cambió todo.`,
+        it: `Eri stanco di ${getCatProblem(ctx.cat, 'it')}? ${name} ha cambiato tutto.`,
+        de: `Hast du das gesehen? ${name} verändert alles.`
+      },
+      emotional: {
+        fr: `Imagine ne plus jamais rater ce qui compte vraiment à cause de ${getCatProblem(ctx.cat, 'fr')}.`,
+        darija: `تخيّل ما عادك تفوّت أي حاجة مهمة بسبب ${getCatProblem(ctx.cat, 'darija')}.`,
+        ar: `تخيّل أنك لن تفوّت أي شيء مهم بعد الآن.`,
+        en: `Imagine never missing what matters again because of ${getCatProblem(ctx.cat, 'en')}.`,
+        es: `Imagina nunca más perder lo que importa por ${getCatProblem(ctx.cat, 'es')}.`,
+        it: `Immagina di non perdere mai più ciò che conta.`,
+        de: `Stell dir vor, du verpasst nie wieder das Wichtigste.`
+      },
+      aggressive: {
+        fr: `STOP. Tu perds du temps et de l'argent à cause de ${getCatProblem(ctx.cat, 'fr')}. Y'a une solution.`,
+        darija: `STOP. كتضيّع الوقت والفلوس بسبب ${getCatProblem(ctx.cat, 'darija')}. كاين الحل.`,
+        ar: `STOP. أنت تضيّع وقتك ومالك. هناك حل الآن.`,
+        en: `STOP wasting time on ${getCatProblem(ctx.cat, 'en')}. There's a better way.`,
+        es: `PARA. Estás perdiendo tiempo y dinero. Hay una solución.`,
+        it: `BASTA perdere tempo con questo problema. C'è una soluzione.`,
+        de: `STOP. Du verlierst Zeit und Geld. Es gibt eine Lösung.`
+      }
+    },
+    transformation: {
+      direct: {
+        fr: `Avant ${name}, j'étais bloqué(e). Maintenant tout a changé.`,
+        darija: `قبل ${name}، كنت محشور. دابا كولشي تبدّل.`,
+        ar: `قبل ${name} كنت عالق. الآن تغيّر كل شيء.`,
+        en: `Before ${name}, I was stuck. Now everything's different.`,
+        es: `Antes de ${name}, estaba bloqueado. Ahora todo cambió.`,
+        it: `Prima di ${name} ero bloccato. Ora tutto è cambiato.`,
+        de: `Bevor ich ${name} hatte, steckte ich fest. Jetzt alles anders.`
+      },
+      emotional: {
+        fr: `Ma vie a complètement changé depuis que j'utilise ${name}. Je vais tout t'expliquer.`,
+        darija: `حياتي تبدّلت بالكامل من بعد ما بدّيت نستعمل ${name}.`,
+        ar: `حياتي تغيّرت تماماً منذ بدأت باستخدام ${name}.`,
+        en: `My life completely changed since I started using ${name}. Let me tell you everything.`,
+        es: `Mi vida cambió completamente desde que uso ${name}. Te cuento todo.`,
+        it: `La mia vita è cambiata completamente da quando uso ${name}.`,
+        de: `Mein Leben hat sich komplett verändert seit ich ${name} benutze.`
+      },
+      aggressive: {
+        fr: `Les gens qui ont ${name} vs ceux qui l'ont pas. La différence est ÉNORME.`,
+        darija: `اللي عندهم ${name} وللي ما عندهمش. الفرق كبير بزاف.`,
+        ar: `الفرق بين من يملك ${name} ومن لا يملكه هائل.`,
+        en: `People with ${name} vs without. The difference is INSANE.`,
+        es: `Con ${name} vs sin él. La diferencia es ENORME.`,
+        it: `Chi ha ${name} e chi non ce l'ha. La differenza è ENORME.`,
+        de: `Mit ${name} vs. ohne. Der Unterschied ist RIESIG.`
+      }
+    },
+    fomo: {
+      direct: {
+        fr: `Des milliers de personnes ont déjà commandé ${name}. Et toi tu attends encore ?`,
+        darija: `الآلاف من الناس خاو ${name} بالفعل. وأنت مازال كاتسنّى؟`,
+        ar: `الآلاف طلبوا ${name} بالفعل. وأنت لا تزال تنتظر؟`,
+        en: `Thousands already ordered ${name}. Are you still waiting?`,
+        es: `Miles ya pidieron ${name}. ¿Todavía estás esperando?`,
+        it: `Migliaia hanno già ordinato ${name}. Stai ancora aspettando?`,
+        de: `Tausende haben ${name} bereits bestellt. Wartest du noch?`
+      },
+      emotional: {
+        fr: `Dans 3 mois tu vas regretter de ne pas avoir pris ${name} aujourd'hui.`,
+        darija: `من بعد 3 شهور غادي تندم على ما خذيتيش ${name} اليوم.`,
+        ar: `بعد 3 أشهر ستندم على عدم طلب ${name} اليوم.`,
+        en: `In 3 months, you'll regret not getting ${name} today.`,
+        es: `En 3 meses lamentarás no haber pedido ${name} hoy.`,
+        it: `Tra 3 mesi ti pentirai di non aver preso ${name} oggi.`,
+        de: `In 3 Monaten wirst du bereuen, ${name} heute nicht gekauft zu haben.`
+      },
+      aggressive: {
+        fr: `STOCK LIMITÉ. ${name} part vite. Si tu regrettes après, c'est trop tard.`,
+        darija: `STOCK محدود. ${name} كيمشي بزربة. إلا ندمتي بعدين، مكيفيدش.`,
+        ar: `مخزون محدود. ${name} ينفد بسرعة. إذا ندمت لاحقاً فلن ينفع.`,
+        en: `LIMITED STOCK. ${name} sells fast. Don't regret it later.`,
+        es: `STOCK LIMITADO. ${name} se va rápido. No te arrepientas después.`,
+        it: `STOCK LIMITATO. ${name} va veloce. Non pentirti dopo.`,
+        de: `BEGRENZT. ${name} ist schnell weg. Bereue es nicht später.`
+      }
+    },
+    opportunity: {
+      direct: {
+        fr: `Et si tu pouvais avoir ${name} et transformer complètement ta façon de vivre ?`,
+        darija: `واش لو تقدر تدير عندك ${name} وتبدّل حياتك بالكامل؟`,
+        ar: `ماذا لو استطعت الحصول على ${name} وتغيير حياتك تماماً؟`,
+        en: `What if ${name} could completely transform your daily life?`,
+        es: `¿Y si ${name} pudiera transformar completamente tu vida?`,
+        it: `E se ${name} potesse trasformare completamente la tua vita?`,
+        de: `Was wäre, wenn ${name} dein Leben komplett verändern könnte?`
+      },
+      emotional: {
+        fr: `Imagine avoir ${name} et enfin profiter de la vie sans les tracas du quotidien.`,
+        darija: `تخيّل عندك ${name} وتبدا تتمتع بالحياة بلا مشاكل.`,
+        ar: `تخيّل امتلاك ${name} والاستمتاع بالحياة دون مشاكل يومية.`,
+        en: `Imagine having ${name} and finally enjoying life without daily hassles.`,
+        es: `Imagina tener ${name} y disfrutar la vida sin complicaciones.`,
+        it: `Immagina avere ${name} e goderti la vita senza problemi quotidiani.`,
+        de: `Stell dir vor, du hast ${name} und genießt das Leben ohne Alltagsprobleme.`
+      },
+      aggressive: {
+        fr: `L'occasion de ta vie : ${name} disponible maintenant. Ne la rate pas.`,
+        darija: `الفرصة ديال عمرك: ${name} متاح دابا. ما تفوّتهاش.`,
+        ar: `فرصة العمر: ${name} متاح الآن. لا تفوّتها.`,
+        en: `The opportunity of a lifetime: ${name} available now. Don't miss it.`,
+        es: `La oportunidad de tu vida: ${name} disponible ahora. No la pierdas.`,
+        it: `L'opportunità della vita: ${name} disponibile ora. Non perderla.`,
+        de: `Die Chance deines Lebens: ${name} jetzt verfügbar. Nicht verpassen.`
+      }
+    },
+    proof: {
+      direct: {
+        fr: `Des milliers de clients satisfaits témoignent : ${name} a vraiment changé leur quotidien.`,
+        darija: `آلاف الزبائن راضيين: ${name} بدّلت حياتهم بالفعل.`,
+        ar: `آلاف العملاء الراضين يشهدون: ${name} غيّرت حياتهم اليومية.`,
+        en: `Thousands of happy customers agree: ${name} genuinely changed their daily life.`,
+        es: `Miles de clientes satisfechos confirman: ${name} cambió su vida.`,
+        it: `Migliaia di clienti soddisfatti confermano: ${name} ha cambiato la loro vita.`,
+        de: `Tausende zufriedene Kunden bestätigen: ${name} hat ihr Leben verändert.`
+      },
+      emotional: {
+        fr: `Elle doutait. Elle a commandé. Aujourd'hui elle ne peut plus s'en passer. C'est ${name}.`,
+        darija: `كانت شاكّة. خذات. دابا ما قادرة تعيش بدونه. هو ${name}.`,
+        ar: `كانت تشك. طلبت. الآن لا تستطيع العيش بدونه. إنه ${name}.`,
+        en: `She doubted it. She ordered. Now she can't live without it. That's ${name}.`,
+        es: `Dudaba. Lo pidió. Ahora no puede vivir sin él. Eso es ${name}.`,
+        it: `Dubitava. Ha ordinato. Ora non può farne a meno. È ${name}.`,
+        de: `Sie zweifelte. Sie bestellte. Jetzt kann sie nicht mehr ohne. Das ist ${name}.`
+      },
+      aggressive: {
+        fr: `Note : 4.9/5. Plus de 10 000 commandes. ${name} parle d'elle-même.`,
+        darija: `النقطة: 4.9/5. أكثر من 10,000 طلب. ${name} كتكلّم على راسها.`,
+        ar: `التقييم: 4.9/5. أكثر من 10,000 طلب. ${name} تتحدث عن نفسها.`,
+        en: `Rated 4.9/5. Over 10,000 orders. ${name} speaks for itself.`,
+        es: `Calificación 4.9/5. Más de 10,000 pedidos. ${name} habla sola.`,
+        it: `Valutazione 4.9/5. Oltre 10.000 ordini. ${name} parla da sola.`,
+        de: `Bewertung 4.9/5. Über 10.000 Bestellungen. ${name} spricht für sich.`
+      }
+    },
+    curiosity: {
+      direct: {
+        fr: `Ça fait un moment que tout le monde parle de ${name}. Voilà pourquoi.`,
+        darija: `من مدة والناس كيهضرو على ${name}. هذا هو السبب.`,
+        ar: `منذ فترة والجميع يتحدث عن ${name}. إليك السبب.`,
+        en: `Everyone's been talking about ${name}. Here's why.`,
+        es: `Todo el mundo habla de ${name}. Aquí el motivo.`,
+        it: `Tutti parlano di ${name} da un po'. Ecco perché.`,
+        de: `Alle reden über ${name}. Hier ist der Grund.`
+      },
+      emotional: {
+        fr: `J'avais vu des centaines de produits. Jamais rien comme ça. Jusqu'à ${name}.`,
+        darija: `شفت الآلاف من المنتجات. ما شفت حتى شي زيه. حتى ${name}.`,
+        ar: `رأيت مئات المنتجات. لم أرَ شيئاً كهذا قط. حتى جاء ${name}.`,
+        en: `I'd seen hundreds of products. Nothing like this. Until ${name}.`,
+        es: `Vi cientos de productos. Nunca algo así. Hasta ${name}.`,
+        it: `Ho visto centinaia di prodotti. Niente come questo. Fino a ${name}.`,
+        de: `Ich habe hunderte Produkte gesehen. Nichts wie das. Bis ${name} kam.`
+      },
+      aggressive: {
+        fr: `Ce que ${name} fait en ${ctx.bodySec} secondes, les autres mettent des heures.`,
+        darija: `اللي كيدير ${name} في ثواني، الآخرين كيخذو ساعات.`,
+        ar: `ما يفعله ${name} في ثوانٍ يأخذ من غيره ساعات.`,
+        en: `What ${name} does in seconds takes others hours.`,
+        es: `Lo que ${name} hace en segundos a otros les lleva horas.`,
+        it: `Quello che ${name} fa in secondi agli altri richiede ore.`,
+        de: `Was ${name} in Sekunden macht, dauert bei anderen Stunden.`
+      }
+    }
+  };
+
+  const styleKey = style === 1 ? 'direct' : style === 2 ? 'emotional' : 'aggressive';
+  const langKey  = lang.code === 'fr-afrique' || lang.code === 'fr-fr' ? 'fr'
+                 : lang.code === 'darija' ? 'darija'
+                 : lang.code === 'ar-gulf' ? 'ar'
+                 : lang.code === 'en-global' ? 'en'
+                 : lang.code === 'es' ? 'es'
+                 : lang.code === 'it' ? 'it'
+                 : lang.code === 'de' ? 'de' : 'fr';
+
+  return (hookMap[selectedAngle]?.[styleKey]?.[langKey]) || hookMap['pain']['direct']['fr'];
+}
+
+function getCatProblem(cat, langKey) {
+  const map = {
+    fr: { default:'ce problème du quotidien', montre:'rater tes appels et notifications', fitness:'ne pas suivre tes performances', beauté:'ta routine beauté inefficace', cuisine:'perdre du temps en cuisine', tech:'ton gadget qui ne tient pas', soin:'prendre soin de toi correctement' },
+    darija: { default:'هاد المشكلة', montre:'تفوّت المكالمات', fitness:'ما تتابعيش الرياضة', beauté:'الروتين ديالك ما كيخدمش', cuisine:'ضياع الوقت فالمطبخ', tech:'الجهاز ما يصمدش', soin:'الاهتمام براسك' },
+    ar: { default:'هذه المشكلة', montre:'فقدان المكالمات', fitness:'عدم متابعة الأداء', beauté:'روتين تجميل غير فعال', cuisine:'ضياع الوقت في المطبخ', tech:'جهاز لا يدوم', soin:'الاعتناء بنفسك' },
+    en: { default:'this daily problem', montre:'missing calls and notifications', fitness:'not tracking your performance', beauté:'your ineffective beauty routine', cuisine:'wasting time in the kitchen', tech:'gadgets that don\'t last', soin:'taking care of yourself properly' },
+    es: { default:'este problema diario', montre:'perder llamadas y notificaciones', fitness:'no seguir tu rendimiento', beauté:'tu rutina de belleza ineficaz', cuisine:'perder tiempo en la cocina', tech:'gadgets que no duran', soin:'cuidarte correctamente' },
+    it: { default:'questo problema quotidiano', montre:'perdere chiamate', fitness:'non monitorare le tue performance', beauté:'routine di bellezza inefficace', cuisine:'perdere tempo in cucina', tech:'gadget che non durano', soin:'prenderti cura di te' },
+    de: { default:'dieses tägliche Problem', montre:'Anrufe verpassen', fitness:'keine Leistung tracken', beauté:'ineffektive Schönheitsroutine', cuisine:'Zeitverschwendung in der Küche', tech:'Geräte die nicht halten', soin:'dich richtig um dich zu kümmern' }
+  };
+  const lang = map[langKey] || map['fr'];
+  const catLow = (cat || '').toLowerCase();
+  if (catLow.includes('montre') || catLow.includes('watch') || catLow.includes('smart')) return lang.montre || lang.default;
+  if (catLow.includes('sport') || catLow.includes('fitness') || catLow.includes('gym')) return lang.fitness || lang.default;
+  if (catLow.includes('beauté') || catLow.includes('beauty') || catLow.includes('soin') || catLow.includes('cosmé')) return lang.beauté || lang.default;
+  if (catLow.includes('cuisine') || catLow.includes('food') || catLow.includes('cook')) return lang.cuisine || lang.default;
+  if (catLow.includes('tech') || catLow.includes('électro') || catLow.includes('gadget')) return lang.tech || lang.default;
+  return lang.default;
+}
+
+function getBody(ctx, style) {
+  const { lang, name, desc, cat, price, bodySec, bodyWords } = ctx;
+  const isWow = ctx.productType === 'wow';
+  const langCode = lang.code;
+  const isFR  = langCode === 'fr-afrique' || langCode === 'fr-fr';
+  const isDarija = langCode === 'darija';
+  const isAr  = langCode === 'ar-gulf';
+  const isEN  = langCode === 'en-global';
+  const fmt   = selectedFormat;
+  const angle = selectedAngle;
+
+  // Extract first 2 features from description (first 2 sentences or lines)
+  const descLines = desc.split(/[.\n]/).filter(l => l.trim().length > 10).slice(0,2).map(l => l.trim());
+  const feat1 = descLines[0] || desc.substring(0,60);
+  const feat2 = descLines[1] || '';
+
+  const priceStr = price ? (isFR ? ` Seulement ${price}.` : isDarija ? ` غير ب${price}.` : isAr ? ` بسعر ${price} فقط.` : isEN ? ` Only ${price}.` : ` Solo ${price}.`) : '';
+
+  // Format-aware persona
+  const isUGC = fmt === 'ugc';
+  const isVO  = fmt === 'voiceover';
+  const isStory = fmt === 'story';
+  const isDemo  = fmt === 'demo';
+
+  // style 1 = direct, 2 = emotional, 3 = aggressive
+  if (isFR) {
+    const problem = getCatProblem(cat, 'fr');
+    if (style === 1) return isUGC
+      ? `Alors moi perso, j'en avais vraiment marre de ${problem}. Un ami m'a parlé de ${name} et franchement j'ai pas regretté.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nC'est simple, ça marche, et tu le reçois direct chez toi.${priceStr}`
+      : `${name} est la solution que des milliers de personnes attendaient.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nSimple à utiliser, livraison rapide, résultats immédiats.${priceStr}`;
+    if (style === 2) return isStory
+      ? `Je me souviens encore de ce moment où j'en avais assez de ${problem}. Je cherchais une vraie solution. Et puis j'ai découvert ${name}.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nAujourd'hui je ne peux plus m'en passer.${priceStr}`
+      : `Ce qui est incroyable avec ${name}, c'est que ça change vraiment les choses.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nDes milliers de personnes ont déjà vécu cette transformation.${priceStr}`;
+    if (style === 3) return `Plus de ${problem}. Plus d'excuses.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nRésultats concrets, livraison rapide, paiement à la réception.${priceStr} C'est maintenant ou jamais.`;
+  }
+
+  if (isDarija) {
+    const problem = getCatProblem(cat, 'darija');
+    if (style === 1) return `أنا شخصياً كنت معيّت من ${problem}. صاحبي عرّفني على ${name} وما ندمتش.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nسهل، كيخدم، وكيوصل لدارك.${priceStr}`;
+    if (style === 2) return `مازال كنتذكّر الوقت اللي كنت فيه معيّت من ${problem}. كنقلّب على حل حقيقي. وجدت ${name}.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nدابا ما نقدر نعيش بدونه.${priceStr}`;
+    if (style === 3) return `ما عادش ${problem}. ما عادش حجج.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nنتائج حقيقية، توصيل سريع، الدفع عند الاستلام.${priceStr} دابا ولا ولا.`;
+  }
+
+  if (isAr) {
+    const problem = getCatProblem(cat, 'ar');
+    if (style === 1) return `شخصياً كنت متضايقاً من ${problem}. صديق أخبرني عن ${name} ولم أندم.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nسهل الاستخدام، يصل إلى بابك.${priceStr}`;
+    if (style === 2) return `لا أزال أتذكر اللحظة التي سئمت فيها من ${problem}. كنت أبحث عن حل حقيقي. ثم وجدت ${name}.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nالآن لا أستطيع العيش بدونه.${priceStr}`;
+    if (style === 3) return `لا مزيد من ${problem}. لا مزيد من الأعذار.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nنتائج حقيقية، توصيل سريع، الدفع عند الاستلام.${priceStr} الآن أو لا شيء.`;
+  }
+
+  if (isEN) {
+    const problem = getCatProblem(cat, 'en');
+    if (style === 1) return isUGC
+      ? `Honestly, I was so done with ${problem}. A friend told me about ${name} and I honestly haven't looked back.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nEasy to use, fast delivery, and it just works.${priceStr}`
+      : `${name} is the solution thousands were waiting for.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nSimple to use, fast results, ships to your door.${priceStr}`;
+    if (style === 2) return `I still remember when I was stuck dealing with ${problem} every day. I tried everything. Then I found ${name}.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nNow I genuinely can't imagine life without it.${priceStr}`;
+    if (style === 3) return `Done with ${problem}. No more excuses.\n\n${feat1}. ${feat2 ? feat2 + '.' : ''}\n\nReal results, fast shipping, no risk.${priceStr} It's now or never.`;
+  }
+
+  // ES, IT, DE — similar direct structure
+  const problem = getCatProblem(cat, langCode === 'es' ? 'es' : langCode === 'it' ? 'it' : 'de');
+  return `${feat1}. ${feat2 ? feat2 + '.' : ''}\n\n${name} — simple, rapide, efficace.${priceStr}`;
+}
+
+function getCTA(ctx, style) {
+  const { lang, name, ctaText, ctaSec } = ctx;
+  const langCode = lang.code;
+  const isFR = langCode === 'fr-afrique' || langCode === 'fr-fr';
+  const isDarija = langCode === 'darija';
+  const isAr = langCode === 'ar-gulf';
+  const isEN = langCode === 'en-global';
+
+  if (isFR) {
+    if (style === 1) return `Lien en bio. Commande maintenant — paiement à la livraison. ${lang.urgency}`;
+    if (style === 2) return `Ne laisse pas passer cette chance. Clique sur le lien et commande ${name} aujourd'hui. Livraison rapide, paiement à la réception.`;
+    if (style === 3) return `STOCK LIMITÉ. ${ctaText}. Maintenant. Lien en bio.`;
+  }
+  if (isDarija) {
+    if (style === 1) return `اللينك فالبيو. سولّي دابا — الدفع عند الاستلام. ${lang.urgency}`;
+    if (style === 2) return `ما تفوّتش هاد الفرصة. كليك على اللينك وسولّي ${name} اليوم.`;
+    if (style === 3) return `STOCK محدود. ${ctaText}. دابا. اللينك فالبيو.`;
+  }
+  if (isAr) {
+    if (style === 1) return `الرابط في البايو. اطلب الآن — الدفع عند الاستلام. ${lang.urgency}`;
+    if (style === 2) return `لا تفوّت هذه الفرصة. اضغط الرابط واطلب ${name} اليوم.`;
+    if (style === 3) return `مخزون محدود. ${ctaText}. الآن. الرابط في البايو.`;
+  }
+  if (isEN) {
+    if (style === 1) return `Link in bio. Order now — fast shipping. ${lang.urgency}`;
+    if (style === 2) return `Don't let this pass you by. Click the link and get ${name} today.`;
+    if (style === 3) return `LIMITED STOCK. ${ctaText}. Right now. Link in bio.`;
+  }
+  // Fallback
+  if (style === 1) return `Enlace en bio. Pide ahora. ${lang.urgency}`;
+  if (style === 2) return `No dejes pasar esta oportunidad. Haz clic y pide ${name} hoy.`;
+  return `STOCK LIMITADO. ${ctaText}. Ahora. Enlace en bio.`;
+}
+
+function buildScenario1(ctx) {
+  return {
+    label: 'SCÉNARIO 1', name: 'Réponse directe', sub: 'Direct response — efficace et percutant',
+    hook: getHook(ctx, 1),
+    body: getBody(ctx, 1),
+    cta:  getCTA(ctx, 1),
+    hookSec: ctx.hookSec, bodySec: ctx.bodySec, ctaSec: ctx.ctaSec
+  };
+}
+
+function buildScenario2(ctx) {
+  return {
+    label: 'SCÉNARIO 2', name: 'Émotionnel / Storytelling', sub: 'Connexion émotionnelle — narrative et authentique',
+    hook: getHook(ctx, 2),
+    body: getBody(ctx, 2),
+    cta:  getCTA(ctx, 2),
+    hookSec: ctx.hookSec, bodySec: ctx.bodySec, ctaSec: ctx.ctaSec
+  };
+}
+
+function buildScenario3(ctx) {
+  return {
+    label: 'SCÉNARIO 3', name: 'Agressif / Haute conversion', sub: 'Maximum urgence — push fort à l\'action',
+    hook: getHook(ctx, 3),
+    body: getBody(ctx, 3),
+    cta:  getCTA(ctx, 3),
+    hookSec: ctx.hookSec, bodySec: ctx.bodySec, ctaSec: ctx.ctaSec
+  };
+}
+
+// ====================================================
+// RENDER SCENARIOS
+// ====================================================
+function renderScenarios() {
+  const wrap = document.getElementById('scenariosWrap');
+  const scColors = ['sc1','sc2','sc3'];
+  wrap.innerHTML = generatedScripts.map((sc, i) => `
+    <div class="scenario-card ${scColors[i]}" id="sc-${i}">
+      <div class="scenario-header" onclick="toggleScenario(${i})">
+        <div class="scenario-title-row">
+          <span class="scenario-badge">${sc.label}</span>
+          <div>
+            <div class="scenario-name">${sc.name}</div>
+            <div class="scenario-sub">${sc.sub}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="scenario-copy-btn" id="scCopy${i}" onclick="event.stopPropagation();copyScenario(${i})">📋 Copier</button>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="script-part part-hook">
+          <div class="part-header">🎣 Hook <span class="part-duration">${sc.hookSec} sec</span></div>
+          <div class="part-text">${escHtml(sc.hook)}</div>
+        </div>
+        <div class="script-part part-body">
+          <div class="part-header">📣 Body <span class="part-duration">${sc.bodySec} sec</span></div>
+          <div class="part-text">${escHtml(sc.body)}</div>
+        </div>
+        <div class="script-part part-cta">
+          <div class="part-header">🛒 CTA <span class="part-duration">${sc.ctaSec} sec</span></div>
+          <div class="part-text">${escHtml(sc.cta)}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('scriptEmpty').classList.remove('visible');
+  document.getElementById('scriptOutputCard').classList.add('visible');
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function toggleScenario(i) {
+  document.getElementById('sc-'+i).classList.toggle('collapsed');
+}
+
+function copyScenario(i) {
+  const sc = generatedScripts[i];
+  if (!sc) return;
+  const text = `═══ ${sc.label} — ${sc.name} ═══\n\n🎣 HOOK (${sc.hookSec}s)\n${sc.hook}\n\n📣 BODY (${sc.bodySec}s)\n${sc.body}\n\n🛒 CTA (${sc.ctaSec}s)\n${sc.cta}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('scCopy'+i);
+    btn.textContent = '✓ Copié';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyAllScripts() {
+  if (!generatedScripts.length) return;
+  const text = generatedScripts.map(sc =>
+    `═══ ${sc.label} — ${sc.name} ═══\n\n🎣 HOOK (${sc.hookSec}s)\n${sc.hook}\n\n📣 BODY (${sc.bodySec}s)\n${sc.body}\n\n🛒 CTA (${sc.ctaSec}s)\n${sc.cta}`
+  ).join('\n\n' + '─'.repeat(50) + '\n\n');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyAllBtn');
+    btn.textContent = '✓ Tout copié !';
+    setTimeout(() => { btn.textContent = '📋 Tout copier'; }, 2500);
+  });
+}
+
+function showScriptError(msg) {
+  const el = document.getElementById('scriptErrorMsg');
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
+}
+
+function hideScriptError() {
+  document.getElementById('scriptErrorMsg').style.display = 'none';
+}
 </script>
 </body>
 </html>
