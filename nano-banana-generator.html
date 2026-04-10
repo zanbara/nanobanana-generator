@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍌</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nano Banana — Landing Prompt Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -1027,6 +1026,238 @@ input[type="range"]::-moz-range-thumb {
   margin-top: 12px;
   display: none;
 }
+
+/* ====================================================
+   NEW: PRODUCT PAGE COPY MODULE CSS
+   ==================================================== */
+
+/* Tone selector — same style as angle-grid but 5 items */
+.tone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+
+.tone-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 8px;
+  cursor: pointer;
+  background: transparent;
+  text-align: center;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.tone-btn:hover { border-color: rgba(130,180,255,0.45); background: rgba(130,180,255,0.07); }
+.tone-btn.active { border-color: #5ba3f5; background: rgba(91,163,245,0.1); }
+.tone-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+.tone-label { font-size: 10px; font-weight: 500; color: var(--text); display: block; line-height: 1.3; }
+
+/* Length selector */
+.length-row { display: flex; gap: 7px; }
+.length-btn {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 6px;
+  cursor: pointer;
+  background: transparent;
+  text-align: center;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.length-btn:hover { border-color: rgba(130,180,255,0.45); background: rgba(130,180,255,0.07); }
+.length-btn.active { border-color: #5ba3f5; background: rgba(91,163,245,0.1); }
+.length-icon { font-size: 14px; display: block; margin-bottom: 3px; }
+.length-label { font-size: 11px; font-weight: 500; color: var(--text); display: block; }
+
+/* Copy generate button — blue accent */
+.btn-copy-gen {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #5ba3f5, #2d7de0);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+}
+.btn-copy-gen:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(91,163,245,0.3); }
+.btn-copy-gen:active { transform: translateY(0); }
+
+.copy-error-msg {
+  background: var(--danger-dim);
+  border: 1px solid rgba(255,90,90,0.2);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-top: 12px;
+  display: none;
+}
+
+/* Product copy output card */
+.copy-output-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: none;
+}
+.copy-output-card.visible { display: block; }
+
+.copy-topbar {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card2);
+  flex-wrap: wrap;
+}
+
+.copy-tag {
+  font-size: 10px;
+  background: rgba(91,163,245,0.12);
+  color: #5ba3f5;
+  border: 1px solid rgba(91,163,245,0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+/* Version toggle */
+.version-toggle-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+  align-items: center;
+}
+.ver-label { font-size: 11px; color: var(--text3); margin-right: 4px; }
+.ver-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.12s;
+}
+.ver-btn.active { border-color: #5ba3f5; color: #5ba3f5; background: rgba(91,163,245,0.1); }
+.ver-btn:hover { border-color: rgba(91,163,245,0.5); color: #5ba3f5; }
+
+/* Section cards inside product copy */
+.copy-sections-wrap { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.copy-section-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg3);
+}
+
+.copy-section-header {
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card2);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.copy-section-header:hover { background: rgba(255,255,255,0.04); }
+
+.copy-section-title-row { display: flex; align-items: center; gap: 9px; }
+
+.copy-section-num {
+  width: 20px; height: 20px;
+  background: rgba(91,163,245,0.15);
+  color: #5ba3f5;
+  border: 1px solid rgba(91,163,245,0.25);
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.copy-section-name { font-size: 12px; font-weight: 600; color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.copy-section-copy-btn {
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  color: var(--text3);
+  font-size: 10px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.12s;
+  display: flex; align-items: center; gap: 3px;
+}
+.copy-section-copy-btn:hover { border-color: #5ba3f5; color: #5ba3f5; background: rgba(91,163,245,0.08); }
+.copy-section-copy-btn.copied { border-color: #5ba3f5; color: #5ba3f5; }
+
+.copy-section-body {
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  white-space: pre-wrap;
+}
+
+.copy-section-card.collapsed .copy-section-body { display: none; }
+.copy-section-card.collapsed .chevron { transform: rotate(-90deg); }
+
+.copy-actions {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+
+/* Empty state for copy pane */
+.copy-empty {
+  display: none;
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text3);
+}
+.copy-empty.visible { display: block; }
+.copy-empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.35; }
+.copy-empty-title { font-size: 14px; font-weight: 600; color: var(--text2); font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 6px; }
+.copy-empty-sub { font-size: 12px; line-height: 1.6; }
+
+/* Review card inside copy output */
+.copy-review-card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  margin-bottom: 8px;
+}
+.copy-review-card:last-child { margin-bottom: 0; }
+.copy-review-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+.copy-review-name { font-size: 12px; font-weight: 600; color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
+.copy-review-loc { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.copy-review-stars { color: var(--gold); font-size: 12px; letter-spacing: 1px; }
+.copy-review-text { font-size: 12px; color: var(--text2); line-height: 1.6; font-style: italic; }
 </style>
 </head>
 <body>
@@ -1300,6 +1531,107 @@ input[type="range"]::-moz-range-thumb {
     </button>
     <div class="script-error-msg" id="scriptErrorMsg"></div>
 
+    <!-- ============================================
+         NEW: PRODUCT PAGE COPY — INPUT SECTION
+         ============================================ -->
+    <div style="height:1px;background:var(--border);margin:1.5rem 0;"></div>
+    <div class="panel-title" style="margin-bottom:1rem;">Fiche produit — Configuration</div>
+
+    <!-- 8. TONE DE COPYRIGHTING -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:#5ba3f5;color:#fff;">8</div>
+        <div class="section-title">Ton de copyrighting</div>
+        <span class="badge-opt">Optionnel</span>
+      </div>
+      <div class="section-body">
+        <div class="tone-grid">
+          <button class="tone-btn active" onclick="selectTone('direct',this)">
+            <span class="tone-icon">⚡</span>
+            <span class="tone-label">Réponse directe</span>
+          </button>
+          <button class="tone-btn" onclick="selectTone('premium',this)">
+            <span class="tone-icon">💎</span>
+            <span class="tone-label">Premium</span>
+          </button>
+          <button class="tone-btn" onclick="selectTone('emotional',this)">
+            <span class="tone-icon">❤️</span>
+            <span class="tone-label">Émotionnel</span>
+          </button>
+          <button class="tone-btn" onclick="selectTone('problem',this)">
+            <span class="tone-icon">🎯</span>
+            <span class="tone-label">Problème / Solution</span>
+          </button>
+          <button class="tone-btn" onclick="selectTone('friendly',this)">
+            <span class="tone-icon">🤝</span>
+            <span class="tone-label">Friendly / Trust</span>
+          </button>
+          <button class="tone-btn" onclick="selectTone('curiosity',this)">
+            <span class="tone-icon">🔥</span>
+            <span class="tone-label">Curiosité / Wow</span>
+          </button>
+        </div>
+        <p class="helper" style="margin-top:10px;">Influence le registre et le style de tous les textes générés.</p>
+      </div>
+    </div>
+
+    <!-- 9. LONGUEUR DES SECTIONS -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:#5ba3f5;color:#fff;">9</div>
+        <div class="section-title">Longueur des sections</div>
+        <span class="badge-opt">Optionnel</span>
+      </div>
+      <div class="section-body">
+        <div class="length-row">
+          <button class="length-btn" onclick="selectLength('short',this)">
+            <span class="length-icon">▪</span>
+            <span class="length-label">Court</span>
+          </button>
+          <button class="length-btn active" onclick="selectLength('medium',this)">
+            <span class="length-icon">▪▪</span>
+            <span class="length-label">Moyen</span>
+          </button>
+          <button class="length-btn" onclick="selectLength('long',this)">
+            <span class="length-icon">▪▪▪</span>
+            <span class="length-label">Long</span>
+          </button>
+        </div>
+        <p class="helper" style="margin-top:10px;">Contrôle la densité du texte dans chaque section de la fiche produit.</p>
+      </div>
+    </div>
+
+    <!-- 10. OPTIONS -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num" style="background:#5ba3f5;color:#fff;">10</div>
+        <div class="section-title">Options avancées</div>
+        <span class="badge-opt">Optionnel</span>
+      </div>
+      <div class="section-body">
+        <div class="toggle-row" style="padding:0 0 10px 0; border-bottom:1px solid var(--border); margin-bottom:10px;">
+          <div>
+            <div class="toggle-label">Titres de sections auto-générés</div>
+            <div class="helper" style="margin-top:2px;">Génère un titre accrocheur pour chaque section</div>
+          </div>
+          <div class="toggle on" id="autoTitlesToggle" onclick="this.classList.toggle('on'); copyAutoTitles=this.classList.contains('on');"></div>
+        </div>
+        <div class="toggle-row" style="padding:0;">
+          <div>
+            <div class="toggle-label">Générer une version alternative (B)</div>
+            <div class="helper" style="margin-top:2px;">Produit une variante de chaque section</div>
+          </div>
+          <div class="toggle" id="altVersionToggle" onclick="this.classList.toggle('on'); copyAltVersion=this.classList.contains('on');"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COPY PAGE GENERATE BUTTON -->
+    <button class="btn-copy-gen" onclick="generateProductPageCopy()">
+      📝 Générer la Fiche Produit Complète
+    </button>
+    <div class="copy-error-msg" id="copyErrorMsg"></div>
+
   </div>
 
   <!-- RIGHT: OUTPUT PANEL -->
@@ -1313,6 +1645,9 @@ input[type="range"]::-moz-range-thumb {
       </button>
       <button class="tab-btn" id="tab-script" onclick="switchTab('script')">
         <span class="tab-icon">🎬</span> Scripts Vidéo
+      </button>
+      <button class="tab-btn" id="tab-copy" onclick="switchTab('copy')">
+        <span class="tab-icon">📝</span> Fiche Produit
       </button>
     </div>
 
@@ -1362,6 +1697,36 @@ input[type="range"]::-moz-range-thumb {
         <div class="scenarios-wrap" id="scenariosWrap"></div>
         <div class="script-actions">
           <button class="btn-secondary" onclick="generateScripts()">🔄 Régénérer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB 3: PRODUCT PAGE COPY (NEW) ===== -->
+    <div id="pane-copy" style="display:none;">
+      <!-- EMPTY STATE -->
+      <div class="copy-empty visible" id="copyEmpty">
+        <div class="copy-empty-icon">📝</div>
+        <div class="copy-empty-title">Votre fiche produit apparaîtra ici</div>
+        <div class="copy-empty-sub">Choisissez un ton, une longueur, configurez les options, puis cliquez sur <strong>Générer la Fiche Produit Complète</strong>.</div>
+      </div>
+
+      <!-- COPY OUTPUT CARD -->
+      <div class="copy-output-card" id="copyOutputCard">
+        <div class="copy-topbar">
+          <div class="output-title">
+            📝 Fiche Produit <span class="copy-tag">PRÊT À COLLER</span>
+          </div>
+          <button class="copy-btn" id="copyAllSectionsBtn" onclick="copyAllSections()" style="background:#5ba3f5;color:#fff;">📋 Tout copier</button>
+        </div>
+        <div class="version-toggle-row" id="versionToggleRow" style="display:none;">
+          <span class="ver-label">Version :</span>
+          <button class="ver-btn active" id="verBtnA" onclick="switchVersion('A')">Version A</button>
+          <button class="ver-btn" id="verBtnB" onclick="switchVersion('B')">Version B</button>
+        </div>
+        <div class="copy-sections-wrap" id="copySectionsWrap"></div>
+        <div class="copy-actions">
+          <button class="btn-secondary" onclick="generateProductPageCopy()">🔄 Régénérer</button>
+          <button class="btn-ghost" onclick="clearForm()">✕ Effacer</button>
         </div>
       </div>
     </div>
@@ -1892,13 +2257,13 @@ let selectedFormat = 'ugc';
 let generatedScripts = [];
 
 // ====================================================
-// TAB SWITCHING
+// TAB SWITCHING (updated for 3 tabs)
 // ====================================================
 function switchTab(tab) {
-  document.getElementById('pane-prompt').style.display = tab === 'prompt' ? 'block' : 'none';
-  document.getElementById('pane-script').style.display = tab === 'script' ? 'block' : 'none';
-  document.getElementById('tab-prompt').classList.toggle('active', tab === 'prompt');
-  document.getElementById('tab-script').classList.toggle('active', tab === 'script');
+  ['prompt','script','copy'].forEach(t => {
+    document.getElementById('pane-'+t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+  });
 }
 
 // ====================================================
@@ -2415,6 +2780,444 @@ function showScriptError(msg) {
 function hideScriptError() {
   document.getElementById('scriptErrorMsg').style.display = 'none';
 }
+
+// ====================================================
+// NEW: PRODUCT PAGE COPY — STATE
+// ====================================================
+let copyTone = 'direct';
+let copyLength = 'medium';
+let copyAutoTitles = true;
+let copyAltVersion = false;
+let generatedCopySections = { A: [], B: [] };
+let activeCopyVersion = 'A';
+
+// ====================================================
+// TONE / LENGTH SELECTORS
+// ====================================================
+function selectTone(tone, btn) {
+  copyTone = tone;
+  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectLength(len, btn) {
+  copyLength = len;
+  document.querySelectorAll('.length-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ====================================================
+// PRODUCT PAGE COPY — GENERATION ENGINE
+// ====================================================
+function generateProductPageCopy() {
+  const name  = document.getElementById('pName').value.trim();
+  const desc  = document.getElementById('pDesc').value.trim();
+  const cat   = document.getElementById('pCat').value.trim();
+  const price = document.getElementById('pPrice').value.trim();
+  const brand = document.getElementById('pBrand').value.trim();
+  const cta   = document.getElementById('pCta').value.trim();
+  const audience = document.getElementById('pAudience').value.trim();
+
+  if (!selectedLang) { showCopyError('Veuillez sélectionner une langue / marché cible (section 1).'); return; }
+  if (!name)         { showCopyError('Veuillez saisir le nom du produit (section 3).'); return; }
+  if (!desc)         { showCopyError('Veuillez décrire le produit (section 3).'); return; }
+
+  hideCopyError();
+
+  const lang = LANGS.find(l => l.code === selectedLang);
+  const productType = detectProductType(desc, cat);
+  const isWow = productType === 'wow';
+  const isFR  = lang.code === 'fr-afrique' || lang.code === 'fr-fr';
+  const isDarija = lang.code === 'darija';
+  const isAr  = lang.code === 'ar-gulf';
+  const isEN  = lang.code === 'en-global';
+  const isES  = lang.code === 'es';
+  const isIT  = lang.code === 'it';
+  const isDE  = lang.code === 'de';
+
+  // Build reviews for section 8
+  const revs = autoReviews ? generateAutoReviews(lang, name)
+    : reviews.filter(r => r.name && r.text).length > 0 ? reviews.filter(r => r.name && r.text)
+    : generateAutoReviews(lang, name);
+
+  const ctx = { lang, name, desc, cat, price, brand, cta, audience, isWow, isFR, isDarija, isAr, isEN, isES, isIT, isDE, revs, tone: copyTone, length: copyLength };
+
+  generatedCopySections.A = buildCopySections(ctx, 'A');
+  generatedCopySections.B = copyAltVersion ? buildCopySections(ctx, 'B') : [];
+  activeCopyVersion = 'A';
+
+  renderCopySections();
+  switchTab('copy');
+}
+
+// ====================================================
+// BUILD ALL 8 SECTIONS
+// ====================================================
+function buildCopySections(ctx, ver) {
+  return [
+    { num: 1, icon: '🌟', title: getSectionTitle(ctx, 1, ver), content: buildSection1(ctx, ver) },
+    { num: 2, icon: '📦', title: getSectionTitle(ctx, 2, ver), content: buildSection2(ctx, ver) },
+    { num: 3, icon: '📋', title: getSectionTitle(ctx, 3, ver), content: buildSection3(ctx, ver) },
+    { num: 4, icon: '⚡', title: getSectionTitle(ctx, 4, ver), content: buildSection4(ctx, ver) },
+    { num: 5, icon: '🔄', title: getSectionTitle(ctx, 5, ver), content: buildSection5(ctx, ver) },
+    { num: 6, icon: '💡', title: getSectionTitle(ctx, 6, ver), content: buildSection6(ctx, ver) },
+    // Section 7 SKIPPED (visual icons only)
+    { num: 8, icon: '⭐', title: getSectionTitle(ctx, 8, ver), content: buildSection8(ctx, ver) },
+  ];
+}
+
+// ====================================================
+// SECTION TITLES
+// ====================================================
+function getSectionTitle(ctx, num, ver) {
+  if (!copyAutoTitles) {
+    const defaults = { 1:'Titre & Introduction', 2:'Description produit', 3:'Comment utiliser', 4:'Caractéristiques & Avantages', 5:'Avant / Après', 6:'Pourquoi choisir ce produit', 8:'Avis clients' };
+    return defaults[num];
+  }
+  const { name, isFR, isDarija, isAr, isEN, isWow, tone } = ctx;
+  const altSuffix = ver === 'B';
+
+  const titles = {
+    1: {
+      fr: isWow ? (altSuffix ? `Révolutionnez votre quotidien avec ${name}` : `Découvrez ${name} — L'innovation qui change tout`)
+               : (altSuffix ? `${name} — La solution que vous attendiez` : `Enfin une solution qui fonctionne vraiment`),
+      darija: isWow ? `${name} — الابتكار اللي كيغيّر كولشي` : `${name} — الحل اللي كنتي كاتسنّاه`,
+      ar: isWow ? `${name} — الابتكار الذي يغيّر كل شيء` : `${name} — الحل الذي كنت تنتظره`,
+      en: isWow ? (altSuffix ? `Meet ${name} — The Innovation Everyone's Talking About` : `${name} — Finally, Something That Actually Works`)
+               : (altSuffix ? `${name} — The Solution You've Been Waiting For` : `Stop Struggling. Start Winning with ${name}`),
+      es: isWow ? `${name} — La innovación que lo cambia todo` : `${name} — La solución que estabas esperando`,
+      it: isWow ? `${name} — L'innovazione che cambia tutto` : `${name} — La soluzione che aspettavi`,
+      de: isWow ? `${name} — Die Innovation, die alles verändert` : `${name} — Die Lösung, auf die du gewartet hast`,
+    },
+    2: {
+      fr: altSuffix ? `Tout ce qu'il faut savoir sur ${name}` : `${name} — Comment ça fonctionne`,
+      darija: `${name} — كيفاش كيخدم`,
+      ar: `${name} — كيف يعمل`,
+      en: altSuffix ? `Everything You Need to Know About ${name}` : `How ${name} Works`,
+      es: `Cómo funciona ${name}`,
+      it: `Come funziona ${name}`,
+      de: `Wie ${name} funktioniert`,
+    },
+    3: {
+      fr: altSuffix ? `Démarrez en quelques minutes` : `Simple à utiliser dès le premier jour`,
+      darija: `سهل بزاف — بدا ديال وهلة`,
+      ar: `سهل الاستخدام — ابدأ فوراً`,
+      en: altSuffix ? `Get Started in Minutes` : `Simple to Use From Day One`,
+      es: `Fácil de usar desde el primer día`,
+      it: `Semplice da usare dal primo giorno`,
+      de: `Einfach zu benutzen ab dem ersten Tag`,
+    },
+    4: {
+      fr: altSuffix ? `Ce qui rend ${name} différent` : `Les avantages qui font toute la différence`,
+      darija: `المزايا اللي كتفرّق`,
+      ar: `المزايا التي تصنع الفرق`,
+      en: altSuffix ? `What Makes ${name} Different` : `The Advantages That Make All the Difference`,
+      es: `Las ventajas que marcan la diferencia`,
+      it: `I vantaggi che fanno la differenza`,
+      de: `Die Vorteile, die den Unterschied machen`,
+    },
+    5: {
+      fr: altSuffix ? `Votre vie avant et après ${name}` : `La transformation que vous méritez`,
+      darija: `حياتك قبل وبعد ${name}`,
+      ar: `حياتك قبل وبعد ${name}`,
+      en: altSuffix ? `Your Life Before and After ${name}` : `The Transformation You Deserve`,
+      es: `Tu vida antes y después de ${name}`,
+      it: `La tua vita prima e dopo ${name}`,
+      de: `Dein Leben vor und nach ${name}`,
+    },
+    6: {
+      fr: altSuffix ? `Pourquoi choisir ${name} plutôt qu'autre chose` : `La raison pour laquelle des milliers de personnes font confiance à ${name}`,
+      darija: `علاش تختار ${name}`,
+      ar: `لماذا تختار ${name}`,
+      en: altSuffix ? `Why Choose ${name} Over Anything Else` : `Why Thousands Trust ${name}`,
+      es: `Por qué elegir ${name}`,
+      it: `Perché scegliere ${name}`,
+      de: `Warum ${name} wählen`,
+    },
+    8: {
+      fr: altSuffix ? `Ce que nos clients disent` : `Ils l'ont essayé. Ils l'adorent.`,
+      darija: `اش قالوا زبائننا`,
+      ar: `ما يقوله عملاؤنا`,
+      en: altSuffix ? `What Our Customers Say` : `They Tried It. They Love It.`,
+      es: `Lo que dicen nuestros clientes`,
+      it: `Cosa dicono i nostri clienti`,
+      de: `Was unsere Kunden sagen`,
+    }
+  };
+
+  const langKey = isFR ? 'fr' : isDarija ? 'darija' : isAr ? 'ar' : isEN ? 'en'
+    : ctx.isES ? 'es' : ctx.isIT ? 'it' : ctx.isDE ? 'de' : 'fr';
+  return titles[num]?.[langKey] || titles[num]?.['fr'] || `Section ${num}`;
+}
+
+// ====================================================
+// SECTION CONTENT BUILDERS
+// ====================================================
+function getPara(ctx, texts) {
+  const { isFR, isDarija, isAr, isEN, isES, isIT, isDE } = ctx;
+  if (isFR) return texts.fr;
+  if (isDarija) return texts.darija || texts.fr;
+  if (isAr) return texts.ar || texts.fr;
+  if (isEN) return texts.en || texts.fr;
+  if (isES) return texts.es || texts.en || texts.fr;
+  if (isIT) return texts.it || texts.en || texts.fr;
+  if (isDE) return texts.de || texts.en || texts.fr;
+  return texts.fr;
+}
+
+function lenFactor() { return copyLength === 'short' ? 0.6 : copyLength === 'long' ? 1.5 : 1; }
+
+function getToneOpener(ctx) {
+  const { tone, name, isFR, isDarija, isAr, isEN, isWow } = ctx;
+  const map = {
+    direct: { fr:`${name} est là pour changer votre quotidien — simplement et efficacement.`, en:`${name} is here to change your daily life — simply and effectively.`, darija:`${name} جا باش يبدّل حياتك — بطريقة بسيطة وفعّالة.`, ar:`${name} هنا لتغيير حياتك — ببساطة وفاعلية.` },
+    premium: { fr:`Conçu pour ceux qui refusent le compromis, ${name} redéfinit le standard.`, en:`Designed for those who refuse to compromise, ${name} redefines the standard.`, darija:`مصمم للي ما يقبلوش التنازل، ${name} كيعيّد تعريف الجودة.`, ar:`مصمم لمن يرفض التنازل، ${name} يُعيد تعريف المعيار.` },
+    emotional: { fr:`Parce que vous méritez mieux, ${name} a été conçu avec soin pour vous.`, en:`Because you deserve better, ${name} was carefully crafted for you.`, darija:`حيت أنت تستاهل أحسن، ${name} تصمّم بعناية من أجلك.`, ar:`لأنك تستحق الأفضل، صُمم ${name} بعناية من أجلك.` },
+    problem: { fr:`Vous avez un problème. ${name} a la solution.`, en:`You have a problem. ${name} has the solution.`, darija:`عندك مشكلة. ${name} عنده الحل.`, ar:`لديك مشكلة. ${name} لديه الحل.` },
+    friendly: { fr:`On a tous ce défi du quotidien. Et on a trouvé quelque chose qui marche vraiment — ${name}.`, en:`We all face that daily challenge. And we found something that actually works — ${name}.`, darija:`كلنا عندنا هاد التحدي ديال كل يوم. ولقينا شي كيخدم — ${name}.`, ar:`كلنا نواجه هذا التحدي اليومي. ووجدنا ما يصلح فعلاً — ${name}.` },
+    curiosity: { fr:`Ce que ${name} fait en quelques secondes, vous ne l'avez jamais vu nulle part.`, en:`What ${name} does in seconds, you've never seen anywhere else.`, darija:`اللي كيدير ${name} فثواني، ما شفتيه حتى فبلاصة.`, ar:`ما يفعله ${name} في ثوانٍ، لم تره في أي مكان.` },
+  };
+  const t = map[ctx.tone] || map['direct'];
+  if (isFR) return t.fr;
+  if (isDarija) return t.darija;
+  if (isAr) return t.ar;
+  return t.en || t.fr;
+}
+
+function buildSection1(ctx, ver) {
+  const { name, desc, isFR, isDarija, isAr, isEN, isWow, isES, isIT, isDE } = ctx;
+  const opener = getToneOpener(ctx);
+  const shortDesc = desc.substring(0, copyLength === 'short' ? 100 : copyLength === 'long' ? 220 : 160).trim();
+  const altTag = ver === 'B' ? ' ✦' : '';
+
+  return getPara(ctx, {
+    fr: `${opener}\n\n${isWow ? '🌟' : '✅'} ${shortDesc}...\n\n${copyLength !== 'short' ? `Que vous soyez au bureau, en déplacement ou en plein effort sportif, ${name} s'adapte à votre rythme et à vos exigences.${altTag}` : ''}`,
+    darija: `${opener}\n\n${shortDesc}...\n\n${copyLength !== 'short' ? `سواء كنتي فالخدمة أو فالرياضة أو فالسفر، ${name} كيتكيّف مع ريتمك.${altTag}` : ''}`,
+    ar: `${opener}\n\n${shortDesc}...\n\n${copyLength !== 'short' ? `سواء كنت في العمل أو الرياضة أو السفر، ${name} يتكيّف مع إيقاعك ومتطلباتك.${altTag}` : ''}`,
+    en: `${opener}\n\n${isWow ? '🌟' : '✅'} ${shortDesc}...\n\n${copyLength !== 'short' ? `Whether you're at the office, on the go, or pushing your limits, ${name} adapts to your pace and your demands.${altTag}` : ''}`,
+    es: `${opener}\n\n${shortDesc}...\n\n${copyLength !== 'short' ? `Ya sea en el trabajo, viajando o haciendo deporte, ${name} se adapta a tu ritmo.${altTag}` : ''}`,
+    it: `${opener}\n\n${shortDesc}...\n\n${copyLength !== 'short' ? `Che tu sia in ufficio, in viaggio o in palestra, ${name} si adatta al tuo ritmo.${altTag}` : ''}`,
+    de: `${opener}\n\n${shortDesc}...\n\n${copyLength !== 'short' ? `Ob im Büro, unterwegs oder beim Sport — ${name} passt sich deinem Tempo an.${altTag}` : ''}`,
+  });
+}
+
+function buildSection2(ctx, ver) {
+  const { name, desc, cat, isFR, isDarija, isAr, isEN } = ctx;
+  const lines = desc.split(/[.\n]/).filter(l => l.trim().length > 8).slice(0, copyLength === 'short' ? 2 : copyLength === 'long' ? 5 : 3);
+  const bulletsFR = lines.map(l => `• ${l.trim()}.`).join('\n');
+  const bulletsEN = lines.map(l => `• ${l.trim()}.`).join('\n');
+
+  return getPara(ctx, {
+    fr: ver === 'B'
+      ? `${name} est bien plus qu'un simple ${cat || 'produit'}. C'est un outil pensé pour simplifier votre vie au quotidien.\n\n${bulletsFR}\n\n${copyLength === 'long' ? `Chaque détail a été pensé pour vous offrir la meilleure expérience possible, sans compromis sur la qualité.` : ''}`
+      : `${name} combine innovation et praticité pour répondre à vos besoins les plus essentiels.\n\n${bulletsFR}\n\n${copyLength === 'long' ? `Résultat d'une conception soignée, il s'intègre parfaitement dans votre routine sans effort d'adaptation.` : ''}`,
+    darija: `${name} مزيان من كل النواحي — مصمم باش يسهّل عليك حياتك.\n\n${bulletsFR}\n\n${copyLength === 'long' ? 'كل تفصيلة فكّرو فيها باش تعطيك أحسن تجربة ممكنة.' : ''}`,
+    ar: `${name} مصمم ليناسب حياتك اليومية ويلبّي احتياجاتك الأساسية.\n\n${bulletsFR}\n\n${copyLength === 'long' ? 'كل تفصيل تم التفكير فيه ليمنحك أفضل تجربة ممكنة دون أي تنازل عن الجودة.' : ''}`,
+    en: ver === 'B'
+      ? `${name} is much more than just a ${cat || 'product'}. It's a tool designed to simplify your daily life.\n\n${bulletsEN}\n\n${copyLength === 'long' ? `Every detail has been thought through to give you the best possible experience, with no compromise on quality.` : ''}`
+      : `${name} combines innovation and practicality to meet your most essential needs.\n\n${bulletsEN}\n\n${copyLength === 'long' ? `The result of careful design, it integrates seamlessly into your daily routine without any learning curve.` : ''}`,
+    es: `${name} combina innovación y practicidad para satisfacer tus necesidades esenciales.\n\n${bulletsFR}\n\n${copyLength === 'long' ? 'Cada detalle ha sido pensado para darte la mejor experiencia posible.' : ''}`,
+    it: `${name} combina innovazione e praticità per soddisfare le tue esigenze essenziali.\n\n${bulletsFR}\n\n${copyLength === 'long' ? 'Ogni dettaglio è stato pensato per offrirti la migliore esperienza possibile.' : ''}`,
+    de: `${name} kombiniert Innovation und Praktikabilität, um deine wesentlichen Bedürfnisse zu erfüllen.\n\n${bulletsFR}\n\n${copyLength === 'long' ? 'Jedes Detail wurde durchdacht, um dir die bestmögliche Erfahrung zu bieten.' : ''}`,
+  });
+}
+
+function buildSection3(ctx, ver) {
+  const { name, isFR, isDarija, isAr, isEN } = ctx;
+  const steps = {
+    fr: ver === 'B'
+      ? `Utiliser ${name} est un jeu d'enfant :\n\n1️⃣ Déballez et préparez votre ${name} en quelques secondes.\n2️⃣ Configurez selon vos préférences — c'est intuitif.\n3️⃣ Profitez immédiatement des résultats.${copyLength === 'long' ? '\n\nPas de mode d\'emploi complexe, pas de technicité requise. Si vous pouvez appuyer sur un bouton, vous pouvez utiliser ${name}.' : ''}`
+      : `Démarrer avec ${name} ne prend que quelques minutes :\n\n1️⃣ Sortez ${name} de son emballage.\n2️⃣ Suivez les instructions simples incluses.\n3️⃣ Intégrez-le dans votre routine et profitez.${copyLength === 'long' ? `\n\nDes milliers d'utilisateurs ont démarré sans aucune difficulté dès le premier jour.` : ''}`,
+    darija: `الاستعمال ديال ${name} سهل بزاف :\n\n1️⃣ خرّجه من الكرطون.\n2️⃣ اتبع التعليمات البسيطة.\n3️⃣ استمتع بالنتائج من اللحظة الأولى.`,
+    ar: `استخدام ${name} أمر في غاية البساطة :\n\n1️⃣ أخرجه من عبوته.\n2️⃣ اتبع التعليمات البسيطة المرفقة.\n3️⃣ استمتع بالنتائج فوراً.${copyLength === 'long' ? `\n\nلا تعقيد، لا خبرة مطلوبة. آلاف المستخدمين بدأوا بدون أي صعوبة.` : ''}`,
+    en: ver === 'B'
+      ? `Getting started with ${name} takes minutes :\n\n1️⃣ Unbox and set up your ${name} in seconds.\n2️⃣ Configure to your preferences — it's intuitive.\n3️⃣ Start seeing results immediately.${copyLength === 'long' ? `\n\nNo complicated manual. No technical skills needed. If you can press a button, you can use ${name}.` : ''}`
+      : `Starting with ${name} is effortless :\n\n1️⃣ Take ${name} out of the box.\n2️⃣ Follow the simple included instructions.\n3️⃣ Integrate it into your routine and enjoy.${copyLength === 'long' ? `\n\nThousands of users got started without any difficulty on day one.` : ''}`,
+    es: `Empezar con ${name} es muy sencillo :\n\n1️⃣ Sácalo del paquete.\n2️⃣ Sigue las instrucciones simples.\n3️⃣ Disfruta los resultados inmediatamente.`,
+    it: `Iniziare con ${name} è semplicissimo :\n\n1️⃣ Togli dalla confezione.\n2️⃣ Segui le istruzioni semplici.\n3️⃣ Goditi i risultati immediatamente.`,
+    de: `Der Einstieg mit ${name} ist ganz einfach :\n\n1️⃣ Aus der Verpackung nehmen.\n2️⃣ Einfache Anleitung befolgen.\n3️⃣ Ergebnisse sofort genießen.`,
+  };
+  return getPara(ctx, steps);
+}
+
+function buildSection4(ctx, ver) {
+  const { name, desc, cat, isFR, isDarija, isAr, isEN, isWow } = ctx;
+  const feats = desc.split(/[.\n]/).filter(l => l.trim().length > 8).slice(0, copyLength === 'short' ? 3 : copyLength === 'long' ? 6 : 4);
+  const bullets = feats.map(f => `✅ ${f.trim()}.`).join('\n');
+  const alt = ver === 'B' ? `\n\n💎 Conçu pour durer. Testé pour performer.` : '';
+  return getPara(ctx, {
+    fr: `Ce qui distingue vraiment ${name} de tout le reste :\n\n${bullets}${copyLength !== 'short' ? `\n\n${isWow ? `Une technologie pensée pour ceux qui veulent toujours une longueur d'avance.` : `Une solution complète qui prend soin de chaque détail pour que vous n'ayez pas à le faire.`}${alt}` : ''}`,
+    darija: `اللي كيميّز ${name} من كل شي آخر :\n\n${bullets}${copyLength !== 'short' ? `\n\n${isWow ? 'تقنية مفكّر فيها لناس اللي باغيين يكونوا دائماً في المقدمة.' : 'حل كامل يهتم بكل تفاصيل حياتك.'}` : ''}`,
+    ar: `ما يميّز ${name} عن كل شيء آخر :\n\n${bullets}${copyLength !== 'short' ? `\n\n${isWow ? 'تقنية مصممة لمن يريد دائماً التميّز.' : 'حل متكامل يهتم بكل تفصيل لتريح بالك.'}` : ''}`,
+    en: `What truly sets ${name} apart from everything else :\n\n${bullets}${copyLength !== 'short' ? `\n\n${isWow ? `Technology designed for those who always want to be one step ahead.` : `A complete solution that takes care of every detail so you don't have to.`}${ver === 'B' ? '\n\n💎 Built to last. Tested to perform.' : ''}` : ''}`,
+    es: `Lo que distingue a ${name} de todo lo demás :\n\n${bullets}${copyLength !== 'short' ? `\n\n${isWow ? 'Tecnología pensada para quienes siempre quieren estar un paso adelante.' : 'Una solución completa que cuida cada detalle.'}` : ''}`,
+    it: `Ciò che distingue davvero ${name} da tutto il resto :\n\n${bullets}${copyLength !== 'short' ? `\n\nTecnologia progettata per chi vuole sempre essere un passo avanti.` : ''}`,
+    de: `Was ${name} wirklich von allem anderen unterscheidet :\n\n${bullets}${copyLength !== 'short' ? `\n\nTechnologie für alle, die immer einen Schritt voraus sein wollen.` : ''}`,
+  });
+}
+
+function buildSection5(ctx, ver) {
+  const { name, cat, isFR, isDarija, isAr, isEN, isWow } = ctx;
+  const catProb = getCatProblem(cat, isFR ? 'fr' : isDarija ? 'darija' : isAr ? 'ar' : isEN ? 'en' : 'fr');
+  return getPara(ctx, {
+    fr: ver === 'B'
+      ? `❌ Sans ${name} : ${catProb}, frustration au quotidien, performances non suivies, sentiment de passer à côté.\n\n✅ Avec ${name} : Sérénité, contrôle total, résultats visibles dès les premiers jours. Vous gagnez en temps, en efficacité et en confiance.${copyLength === 'long' ? `\n\nLa différence n'est pas subtile — elle est immédiate et mesurable.` : ''}`
+      : `Avant : ${catProb.charAt(0).toUpperCase()+catProb.slice(1)}, journées compliquées, objectifs manqués.\n\nAprès ${name} : Chaque journée commence avec clarté et se termine avec satisfaction. Fini de subir — vous reprenez le contrôle.${copyLength === 'long' ? `\n\nCe n'est pas juste un produit. C'est un changement de mode de vie.` : ''}`,
+    darija: `❌ بدون ${name} : ${catProb}، إحباط يومي، ما تتابعيش أداءك.\n\n✅ مع ${name} : راحة البال، تحكّم كامل، نتائج واضحة من الأيام الأولى.${copyLength === 'long' ? `\n\nالفرق مشهود — وهو فوري وقابل للقياس.` : ''}`,
+    ar: `❌ بدون ${name} : ${catProb}، إحباط يومي، أداء غير متابع.\n\n✅ مع ${name} : راحة بال، تحكّم كامل، نتائج ملموسة من الأيام الأولى.${copyLength === 'long' ? `\n\nالفرق ليس بسيطاً — إنه فوري وقابل للقياس.` : ''}`,
+    en: ver === 'B'
+      ? `❌ Without ${name} : ${catProb}, daily frustration, no performance tracking, feeling left behind.\n\n✅ With ${name} : Peace of mind, full control, visible results from day one. You gain time, efficiency, and confidence.${copyLength === 'long' ? `\n\nThe difference isn't subtle — it's immediate and measurable.` : ''}`
+      : `Before : ${catProb.charAt(0).toUpperCase()+catProb.slice(1)}, complicated days, missed goals.\n\nAfter ${name} : Every day starts with clarity and ends with satisfaction. Stop struggling — take back control.${copyLength === 'long' ? `\n\nThis isn't just a product. It's a lifestyle shift.` : ''}`,
+    es: `❌ Sin ${name} : ${catProb}, frustración diaria, sin seguimiento.\n\n✅ Con ${name} : Tranquilidad, control total, resultados visibles desde el primer día.`,
+    it: `❌ Senza ${name} : ${catProb}, frustrazione quotidiana, nessun monitoraggio.\n\n✅ Con ${name} : Serenità, controllo totale, risultati visibili fin dal primo giorno.`,
+    de: `❌ Ohne ${name} : ${catProb}, tägliche Frustration, keine Leistungsverfolgung.\n\n✅ Mit ${name} : Ruhe, volle Kontrolle, sichtbare Ergebnisse ab Tag eins.`,
+  });
+}
+
+function buildSection6(ctx, ver) {
+  const { name, price, audience, isFR, isDarija, isAr, isEN, isWow, lang } = ctx;
+  const priceStr = price ? (isFR ? ` À seulement ${price},` : isEN ? ` At just ${price},` : isDarija ? ` بغير ${price}،` : isAr ? ` بسعر ${price} فقط،` : ` Solo ${price},`) : '';
+  return getPara(ctx, {
+    fr: `${isWow ? `${name} n'est pas juste un gadget de plus. C'est l'outil qui manquait à votre quotidien.` : `${name} existe parce que vous méritez une solution qui fonctionne vraiment, sans compromis.`}\n\n${audience ? `Pensé pour ${audience}, il répond à des besoins concrets avec une efficacité prouvée.` : `Des milliers de personnes dans ${lang.cities.slice(0,2).join(', ')} font déjà confiance à ${name}.`}${priceStr ? `\n\n${priceStr} il n'y a aucune raison de continuer à faire sans.${copyLength === 'long' ? `\n\nLivraison rapide. Paiement à la réception. Satisfait ou remboursé.` : ''}` : `\n\n${lang.trust}`}`,
+    darija: `${isWow ? `${name} مشي غير غادجي — هو الأداة اللي كانت ناقصة فحياتك.` : `${name} موجود حيت أنت تستاهل حل حقيقي.`}\n\n${lang.trust}`,
+    ar: `${isWow ? `${name} ليس مجرد أداة — إنه ما كان ينقص حياتك.` : `${name} موجود لأنك تستحق حلاً حقيقياً يعمل.`}\n\n${audience ? `مصمم لـ${audience}، يلبّي احتياجات حقيقية بفاعلية مثبتة.` : `آلاف الأشخاص يثقون بـ${name}.`}\n\n${lang.trust}`,
+    en: `${isWow ? `${name} isn't just another gadget. It's the tool your daily life was missing.` : `${name} exists because you deserve a solution that actually works, without compromise.`}\n\n${audience ? `Designed for ${audience}, it addresses real needs with proven effectiveness.` : `Thousands of people in ${lang.cities.slice(0,2).join(', ')} already trust ${name}.`}${priceStr ? `\n\n${priceStr} there's no reason to keep going without it.${copyLength === 'long' ? `\n\nFast delivery. Pay on receipt. Satisfaction guaranteed.` : ''}` : `\n\n${lang.trust}`}`,
+    es: `${isWow ? `${name} no es solo otro gadget. Es la herramienta que le faltaba a tu vida.` : `${name} existe porque mereces una solución que funcione de verdad.`}\n\n${lang.trust}`,
+    it: `${isWow ? `${name} non è solo un altro gadget. È lo strumento che mancava alla tua vita.` : `${name} esiste perché meriti una soluzione che funzioni davvero.`}\n\n${lang.trust}`,
+    de: `${isWow ? `${name} ist nicht nur ein weiteres Gadget. Es ist das Werkzeug, das deinem Alltag gefehlt hat.` : `${name} gibt es, weil du eine Lösung verdienst, die wirklich funktioniert.`}\n\n${lang.trust}`,
+  });
+}
+
+function buildSection8(ctx, ver) {
+  const { revs, isFR, isDarija, isAr, isEN, lang } = ctx;
+  // Return structured data, rendered as cards
+  return '__REVIEWS__';
+}
+
+// ====================================================
+// RENDER COPY SECTIONS
+// ====================================================
+function renderCopySections() {
+  const wrap = document.getElementById('copySectionsWrap');
+  const sections = generatedCopySections[activeCopyVersion];
+
+  wrap.innerHTML = sections.map((sec, i) => {
+    if (sec.content === '__REVIEWS__') {
+      return renderReviewSection(sec, i);
+    }
+    return `
+    <div class="copy-section-card" id="csec-${i}">
+      <div class="copy-section-header" onclick="toggleCopySection(${i})">
+        <div class="copy-section-title-row">
+          <div class="copy-section-num">${sec.num}</div>
+          <div>
+            <div class="copy-section-name">${sec.icon} ${sec.title}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <button class="copy-section-copy-btn" id="csecCopy${i}" onclick="event.stopPropagation();copySectionText(${i})">📋 Copier</button>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="copy-section-body">${escHtml(sec.content)}</div>
+    </div>`;
+  }).join('');
+
+  // Version toggle
+  const vtr = document.getElementById('versionToggleRow');
+  vtr.style.display = copyAltVersion ? 'flex' : 'none';
+
+  document.getElementById('copyEmpty').classList.remove('visible');
+  document.getElementById('copyOutputCard').classList.add('visible');
+}
+
+function renderReviewSection(sec, i) {
+  const lang = LANGS.find(l => l.code === selectedLang);
+  const name = document.getElementById('pName').value.trim();
+  const revs = autoReviews ? generateAutoReviews(lang, name)
+    : reviews.filter(r => r.name && r.text).length > 0 ? reviews.filter(r => r.name && r.text)
+    : generateAutoReviews(lang, name);
+
+  const reviewCards = revs.map(r => `
+    <div class="copy-review-card">
+      <div class="copy-review-header">
+        <div>
+          <div class="copy-review-name">${r.name}</div>
+          <div class="copy-review-loc">${r.city || r.loc || ''}</div>
+        </div>
+        <div class="copy-review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      </div>
+      <div class="copy-review-text">"${r.text}"</div>
+    </div>`).join('');
+
+  const reviewsPlainText = revs.map(r => `${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)} — ${r.name}${r.city||r.loc ? ', '+(r.city||r.loc) : ''}\n"${r.text}"`).join('\n\n');
+
+  return `
+    <div class="copy-section-card" id="csec-${i}">
+      <div class="copy-section-header" onclick="toggleCopySection(${i})">
+        <div class="copy-section-title-row">
+          <div class="copy-section-num">${sec.num}</div>
+          <div><div class="copy-section-name">${sec.icon} ${sec.title}</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <button class="copy-section-copy-btn" id="csecCopy${i}" onclick="event.stopPropagation();navigator.clipboard.writeText(${JSON.stringify(reviewsPlainText)}).then(()=>{const b=document.getElementById('csecCopy${i}');b.textContent='✓ Copié';b.classList.add('copied');setTimeout(()=>{b.textContent='📋 Copier';b.classList.remove('copied');},2000)})">📋 Copier</button>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="copy-section-body" style="padding:12px 14px;">${reviewCards}</div>
+    </div>`;
+}
+
+function toggleCopySection(i) {
+  document.getElementById('csec-'+i).classList.toggle('collapsed');
+}
+
+function copySectionText(i) {
+  const sec = generatedCopySections[activeCopyVersion][i];
+  if (!sec || sec.content === '__REVIEWS__') return;
+  navigator.clipboard.writeText(sec.title + '\n\n' + sec.content).then(() => {
+    const btn = document.getElementById('csecCopy'+i);
+    btn.textContent = '✓ Copié';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyAllSections() {
+  const sections = generatedCopySections[activeCopyVersion];
+  const lang = LANGS.find(l => l.code === selectedLang);
+  const name = document.getElementById('pName').value.trim();
+  const text = sections.map(sec => {
+    if (sec.content === '__REVIEWS__') {
+      const revs = autoReviews ? generateAutoReviews(lang, name)
+        : reviews.filter(r => r.name && r.text).length > 0 ? reviews.filter(r => r.name && r.text)
+        : generateAutoReviews(lang, name);
+      const rt = revs.map(r => `${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)} — ${r.name}${r.city||r.loc?', '+(r.city||r.loc):''}\n"${r.text}"`).join('\n\n');
+      return `═══ SECTION ${sec.num} — ${sec.title} ═══\n\n${rt}`;
+    }
+    return `═══ SECTION ${sec.num} — ${sec.title} ═══\n\n${sec.content}`;
+  }).join('\n\n' + '─'.repeat(50) + '\n\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyAllSectionsBtn');
+    btn.textContent = '✓ Tout copié !';
+    setTimeout(() => { btn.textContent = '📋 Tout copier'; }, 2500);
+  });
+}
+
+function switchVersion(ver) {
+  activeCopyVersion = ver;
+  document.getElementById('verBtnA').classList.toggle('active', ver === 'A');
+  document.getElementById('verBtnB').classList.toggle('active', ver === 'B');
+  renderCopySections();
+}
+
+function showCopyError(msg) {
+  const el = document.getElementById('copyErrorMsg');
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
+}
+function hideCopyError() { document.getElementById('copyErrorMsg').style.display = 'none'; }
 </script>
 </body>
 </html>
